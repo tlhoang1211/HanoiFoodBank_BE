@@ -1,0 +1,157 @@
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+
+    <!-- START HEADER/BANNER -->
+
+    <tbody>
+    <tr>
+        <td align="center">
+            <table align="center" border="0" cellpadding="0" cellspacing="0" class="col-600" width="600">
+                <tbody>
+                <tr>
+                    <td 400 align="center"
+                        background="https://designmodo.com/demo/emailtemplate/images/header-background.jpg"
+                        bgcolor="#66809b" style="background-size:cover; background-position:top;height=" valign="top"
+                    ""="">
+                    <table align="center" border="0" cellpadding="0" cellspacing="0" class="col-600" height="400"
+                           width="600">
+
+                        <tbody>
+                        <tr>
+                            <td height="40"></td>
+                        </tr>
+
+
+                        <tr>
+                            <td align="center" style="line-height: 0px;">
+                                <img alt="logo"
+                                     height="103" src="https://designmodo.com/demo/emailtemplate/images/logo.png"
+                                     style="display:block; line-height:0px; font-size:0px; border:0px;" width="109">
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td align="center" style="font-family: 'Raleway', sans-serif; font-size:37px; color:#ffffff; line-height:24px; font-weight: bold; letter-spacing: 7px;">
+                                HANOI FOOD BANK
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center"
+                                style="font-family: 'Lato', sans-serif; font-size:15px; color:#ffffff; line-height:24px; font-weight: 300;">
+                                A creative email template for your email campaigns, promotions <br>and products across
+                                different email platforms.
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td height="50"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    <!-- END HEADER/BANNER -->
+    <!-- START AWESOME TITLE -->
+    <tr>
+        <td align="center">
+            <table align="center" border="0" cellpadding="0" cellspacing="0" class="col-600" width="600">
+                <tbody>
+                <tr>
+                    <td align="center" bgcolor="#2a3b4c">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0" class="col-600" width="600">
+                            <tbody>
+                            <tr>
+                                <td height="33"></td>
+                            </tr>
+                            <tr th:each="d, state : ${data}">
+                                <td>
+                                    <table align="left" border="0" cellpadding="0" cellspacing="0" class="col1"
+                                           width="183">
+
+                                        <tbody>
+                                        <tr>
+                                            <td height="18"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td align="center">
+                                                <img alt="img"
+                                                     class="images_style"
+                                                     height="136"
+                                                     th:src="${d.urlImage}"
+                                                     style="display:block; line-height:0px; font-size:0px; border:0px;"
+                                                     width="156">
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                    <table align="right" border="0" cellpadding="0" cellspacing="0" class="col3_one"
+                                           width="380">
+
+                                        <tbody>
+                                        <tr align="left" valign="top">
+                                            <td style="font-family: 'Raleway', sans-serif; font-size:20px; color:#f1c40f; line-height:30px; font-weight: bold;">
+                                                <span th:text="${d.foodName}"></span>
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td height="5"></td>
+                                        </tr>
+
+
+                                        <tr align="left" valign="top">
+                                            <td style="font-family: 'Lato', sans-serif; font-size:14px; color:#fff; line-height:24px; font-weight: 300;">
+                                                <span th:text="${d.description}"></span>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td height="10"></td>
+                                        </tr>
+
+                                        <tr align="left" valign="top">
+                                            <td>
+                                                <table bgcolor="#2b3c4d" border="0" cellpadding="0"
+                                                       cellspacing="0" class="button" style="border: 2px solid #fff;"
+                                                       width="30%">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td width="10"></td>
+                                                        <td align="center" height="30"
+                                                            style="font-family: 'Open Sans', Arial, sans-serif; font-size:13px; color:#ffffff;">
+                                                            <a th:href="${d.urlDetail}" style="color:#ffffff;">Read more</a>
+                                                        </td>
+                                                        <td width="10"></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td height="33"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    <!-- END AWESOME TITLE -->
+    </tbody>
+</table>
