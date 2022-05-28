@@ -40,7 +40,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @CrossOrigin
     @GetMapping("/users/{username}")
     public ResponseEntity<ResponseData> getUser(@PathVariable String username){
         UserDTO userDTO = userService.getUser(username);
@@ -122,7 +121,6 @@ public class UserController {
         return userService.getUserRole(form.getUsername(), form.getRoleName());
     }
 
-    @CrossOrigin
     @GetMapping("/token/refresh")
     public ResponseEntity<ResponseData> refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader("Authorization");
