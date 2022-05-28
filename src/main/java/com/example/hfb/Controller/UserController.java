@@ -40,6 +40,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @CrossOrigin
     @GetMapping("/users/{username}")
     public ResponseEntity<ResponseData> getUser(@PathVariable String username){
         UserDTO userDTO = userService.getUser(username);
@@ -47,7 +48,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value())
                     .body(new ResponseData(HttpStatus.NOT_FOUND.value(), "User is not exist",""));
         }
-        return ResponseEntity.ok(new ResponseData(HttpStatus.OK.value(), "succsess",userDTO));
+        return ResponseEntity.ok(new ResponseData(HttpStatus.OK.value(), "success",userDTO));
     }
 
     @GetMapping("/users")
@@ -56,7 +57,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value())
                     .body(new ResponseData(HttpStatus.NOT_FOUND.value(), "Role is not exist",""));
         }
-        return ResponseEntity.ok(new ResponseData(HttpStatus.OK.value(), "succsess",userService.getUsersByRole(role)));
+        return ResponseEntity.ok(new ResponseData(HttpStatus.OK.value(), "success",userService.getUsersByRole(role)));
     }
 
     @GetMapping("/users/search")
@@ -121,6 +122,7 @@ public class UserController {
         return userService.getUserRole(form.getUsername(), form.getRoleName());
     }
 
+    @CrossOrigin
     @GetMapping("/token/refresh")
     public ResponseEntity<ResponseData> refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader("Authorization");
