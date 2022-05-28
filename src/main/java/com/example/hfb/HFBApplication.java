@@ -32,7 +32,7 @@ public class HFBApplication {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/login_register.html").allowedOrigins("https://www.hanoifoodbank.com/");
+                registry.addMapping("api/v1/hfb/login").allowedOrigins("https://hanoifoodbank.herokuapp.com/");
             }
         };
     }
