@@ -28,16 +28,6 @@ public class HFBApplication {
     }
 
     @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("api/v1/hfb/login").allowedOrigins("https://hanoifoodbank.herokuapp.com/");
-            }
-        };
-    }
-
-    @Bean
     CommandLineRunner runner(SeedingService service) {
         return args -> {
             // delete user_role
