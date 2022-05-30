@@ -10,11 +10,13 @@ import com.example.hfb.model.dto.StatisticRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 
@@ -90,5 +92,6 @@ public interface RequestRepository extends JpaRepository<Request, UserFoodKey> {
                 " GROUP BY TO_CHAR(TO_TIMESTAMP(r.created_at / 1000), 'YYYY-MM-DD')"
         , nativeQuery = true)
     List<Object[]> statisticRequest (@Param(value="startDate") Long startDate, @Param(value="endDate") Long endDate);
+
 
 }
