@@ -31,19 +31,19 @@ public class HFBApplication {
     CommandLineRunner runner(SeedingService service) {
         return args -> {
             // delete user_role
-            service.deleteUserRoles();
+//            service.deleteUserRoles();
             service.resetIdUserRole();
             // delete user
-            service.deleteUsers();
+//            service.deleteUsers();
             service.resetIdUser();
             // delete role
-            service.deleteRoles();
+//            service.deleteRoles();
             service.resetIdRole();
             // delete food
-            service.deleteFoods();
+//            service.deleteFoods();
             service.resetIdFood();
             // delete category
-            service.deleteCategories();
+//            service.deleteCategories();
             service.resetIdCategory();
             long datetime = Calendar.getInstance().getTimeInMillis();
             // add role
