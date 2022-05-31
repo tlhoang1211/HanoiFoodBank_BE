@@ -32,19 +32,19 @@ public class HFBApplication {
         return args -> {
             // delete user_role
 //            service.deleteUserRoles();
-            service.resetIdUserRole();
+//            service.resetIdUserRole();
             // delete user
 //            service.deleteUsers();
-            service.resetIdUser();
+//            service.resetIdUser();
             // delete role
 //            service.deleteRoles();
-            service.resetIdRole();
+//            service.resetIdRole();
             // delete food
 //            service.deleteFoods();
-            service.resetIdFood();
+//            service.resetIdFood();
             // delete category
 //            service.deleteCategories();
-            service.resetIdCategory();
+//            service.resetIdCategory();
             long datetime = Calendar.getInstance().getTimeInMillis();
             // add role
             service.saveRole(new Role(1, "ROLE_ADMIN"));
