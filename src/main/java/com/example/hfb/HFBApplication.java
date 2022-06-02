@@ -45,11 +45,11 @@ public class HFBApplication {
 //            // delete user
 //            service.deleteUsers();
 //            service.resetIdUser();
-//            long datetime = Calendar.getInstance().getTimeInMillis();
-//            // add role
-//            service.saveRole(new Role(1, "ROLE_ADMIN"));
-//            service.saveRole(new Role(2, "ROLE_USER"));
-//
+            long datetime = Calendar.getInstance().getTimeInMillis();
+            // add role
+            service.saveRole(new Role(1, "ROLE_ADMIN"));
+            service.saveRole(new Role(2, "ROLE_USER"));
+
            // add user
             service.saveUser(new User(1, "admin", "admin@gmail.com", "123", "admin@gmail.com", "09061234", "Ha noi", "v1636104927/hanoi_food_bank_project/users_avatar/admin.jpg", 100, datetime, datetime, 1, 1, 1));
             service.saveUser(new User(2, "Tran Hoang", "tlhoang1211@gmail.com", "123", "tlhoang1211@gmail.com", "09061234", "Ha noi", "v1636303335/hanoi_food_bank_project/users_avatar/user1.jpg", 100, datetime, datetime, 1, 1, 1));
