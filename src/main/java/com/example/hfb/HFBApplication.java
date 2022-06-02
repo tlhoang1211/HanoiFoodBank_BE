@@ -30,9 +30,6 @@ public class HFBApplication {
     @Bean
     CommandLineRunner runner(SeedingService service) {
         return args -> {
-            // delete user_role
-            service.deleteUserRoles();
-            service.resetIdUserRole();
             // delete user
             service.deleteUsers();
             service.resetIdUser();
@@ -45,6 +42,9 @@ public class HFBApplication {
             // delete category
             service.deleteCategories();
             service.resetIdCategory();
+            // delete user_role
+            service.deleteUserRoles();
+            service.resetIdUserRole();
 //            long datetime = Calendar.getInstance().getTimeInMillis();
 //            // add role
 //            service.saveRole(new Role(1, "ROLE_ADMIN"));
