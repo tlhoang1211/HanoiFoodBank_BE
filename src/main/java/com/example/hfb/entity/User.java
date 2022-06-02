@@ -24,6 +24,8 @@ public class User {
     private String address;
     private String avatar;
     private int pointEvaluation;
+    private float currentPositionLatitude;
+    private float currentPositionLongitude;
     private long createdAt;
     private long updatedAt;
     private Integer createdBy;
