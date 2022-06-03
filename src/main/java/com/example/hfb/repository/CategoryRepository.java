@@ -25,7 +25,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "delete from category", nativeQuery = true)
+    @Query(value = "drop table category", nativeQuery = true)
     void deleteAll();
 
     @Modifying

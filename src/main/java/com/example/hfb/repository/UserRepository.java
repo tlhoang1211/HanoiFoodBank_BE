@@ -20,7 +20,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "delete from Account", nativeQuery = true)
+    @Query(value = "drop table Account", nativeQuery = true)
     void deleteAll();
 
     @Modifying

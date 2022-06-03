@@ -23,7 +23,7 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
     Page<Role> findAll(@Param(value="name") String name, @Param(value="status") int status, Pageable pageable);
     @Modifying
     @Transactional
-    @Query(value = "delete from role ", nativeQuery = true)
+    @Query(value = "drop table role", nativeQuery = true)
     void deleteAll();
 
     @Modifying
