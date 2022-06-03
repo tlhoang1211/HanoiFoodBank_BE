@@ -30,18 +30,10 @@ public class HFBApplication {
     @Bean
     CommandLineRunner runner(SeedingService service) {
         return args -> {
-////            // delete user_role
 //            service.deleteUserRoles();
-//
-////            // delete role
 //            service.deleteRoles();
-//
-////            // delete food
 //            service.deleteFoods();
-//
-////            // delete category
 //            service.deleteCategories();
-////            // delete user
 //            service.deleteUsers();
 
             service.resetIdUser();
