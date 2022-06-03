@@ -68,11 +68,11 @@ public interface FoodRepository extends JpaRepository<Food, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "drop table if exists food", nativeQuery = true)
-    void dropTable();
+    @Query(value = "delete from food; commit;", nativeQuery = true)
+    void deleteAll();
 
-//    @Modifying
-//    @Transactional
-//    @Query(value = "ALTER TABLE food AUTO_INCREMENT = 1;", nativeQuery = true)
-//    void resetId();
+    @Modifying
+    @Transactional
+    @Query(value = "ALTER TABLE food AUTO_INCREMENT = 1; commit;", nativeQuery = true)
+    void resetId();
 }

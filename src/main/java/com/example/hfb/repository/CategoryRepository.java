@@ -25,11 +25,11 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "drop table if exists category", nativeQuery = true)
-    void dropTable();
+    @Query(value = "delete from category; commit;", nativeQuery = true)
+    void deleteAll();
 
-//    @Modifying
-//    @Transactional
-//    @Query(value = "ALTER TABLE category AUTO_INCREMENT = 1;", nativeQuery = true)
-//    void resetId();
+    @Modifying
+    @Transactional
+    @Query(value = "ALTER TABLE category AUTO_INCREMENT = 1; commit;", nativeQuery = true)
+    void resetId();
 }

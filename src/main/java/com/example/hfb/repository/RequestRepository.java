@@ -95,6 +95,11 @@ public interface RequestRepository extends JpaRepository<Request, UserFoodKey> {
 
     @Modifying
     @Transactional
-    @Query(value = "drop table if exists request", nativeQuery = true)
-    void dropTable();
+    @Query(value = "delete from request; commit;", nativeQuery = true)
+    void deleteAll();
+
+    @Modifying
+    @Transactional
+    @Query(value = "ALTER TABLE request AUTO_INCREMENT = 1; commit;", nativeQuery = true)
+    void resetId();
 }

@@ -34,6 +34,11 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "drop table if exists feedback", nativeQuery = true)
-    void dropTable();
+    @Query(value = "delete from feedback; commit;", nativeQuery = true)
+    void deleteAll();
+
+    @Modifying
+    @Transactional
+    @Query(value = "ALTER TABLE feedback AUTO_INCREMENT = 1; commit;", nativeQuery = true)
+    void resetId();
 }

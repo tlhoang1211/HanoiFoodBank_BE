@@ -52,6 +52,11 @@ public interface DonationRepository extends JpaRepository<Donation, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "drop table if exists donation", nativeQuery = true)
-    void dropTable();
+    @Query(value = "delete from donation; commit;", nativeQuery = true)
+    void deleteAll();
+
+    @Modifying
+    @Transactional
+    @Query(value = "ALTER TABLE donation AUTO_INCREMENT = 1; commit;", nativeQuery = true)
+    void resetId();
 }
