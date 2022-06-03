@@ -21,7 +21,7 @@ public interface UserRoleRepository extends JpaRepository<UserRole, UserRoleKey>
     @Modifying
     @Transactional
     @Query(value = "drop table if exists user_role;", nativeQuery = true)
-    void deleteAll();
+    void dropTable();
 
 //    @Modifying
 //    @Transactional

@@ -5,10 +5,12 @@ import com.example.hfb.model.dto.StatisticDonation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -47,4 +49,9 @@ public interface DonationRepository extends JpaRepository<Donation, Integer> {
             " GROUP BY TO_CHAR(TO_TIMESTAMP(d.created_at / 1000), 'YYYY-MM-DD')"
             , nativeQuery = true)
         List<Object[]> statisticDonation (@Param(value="startDate") Long startDate, @Param(value="endDate") Long endDate);
+
+    @Modifying
+    @Transactional
+    @Query(value = "drop table if exists donation", nativeQuery = true)
+    void dropTable();
 }

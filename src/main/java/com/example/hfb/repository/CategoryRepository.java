@@ -26,7 +26,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     @Modifying
     @Transactional
     @Query(value = "drop table if exists category", nativeQuery = true)
-    void deleteAll();
+    void dropTable();
 
 //    @Modifying
 //    @Transactional

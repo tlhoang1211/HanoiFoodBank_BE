@@ -24,7 +24,7 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
     @Modifying
     @Transactional
     @Query(value = "drop table if exists role", nativeQuery = true)
-    void deleteAll();
+    void dropTable();
 
 //    @Modifying
 //    @Transactional

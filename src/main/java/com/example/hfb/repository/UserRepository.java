@@ -21,7 +21,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Modifying
     @Transactional
     @Query(value = "drop table if exists Account", nativeQuery = true)
-    void deleteAll();
+    void dropTable();
 
 //    @Modifying
 //    @Transactional
