@@ -94,6 +94,9 @@ public class SeedingService {
     public void deleteFoods() {
         foodRepository.deleteAll();
     }
+    public void deleteRequests() {
+        requestRepository.deleteAll();
+    }
 //    public void resetIdFood() {
 //        foodRepository.resetId();
 //    }

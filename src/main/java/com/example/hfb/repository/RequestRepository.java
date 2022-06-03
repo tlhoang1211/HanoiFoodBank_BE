@@ -93,5 +93,8 @@ public interface RequestRepository extends JpaRepository<Request, UserFoodKey> {
         , nativeQuery = true)
     List<Object[]> statisticRequest (@Param(value="startDate") Long startDate, @Param(value="endDate") Long endDate);
 
-
+    @Modifying
+    @Transactional
+    @Query(value = "drop table if exists request", nativeQuery = true)
+    void deleteAll();
 }

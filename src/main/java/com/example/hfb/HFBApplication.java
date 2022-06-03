@@ -32,6 +32,7 @@ public class HFBApplication {
         return args -> {
             service.deleteUserRoles();
             service.deleteRoles();
+            service.deleteRequests();
             service.deleteCategories();
             service.deleteFoods();
             service.deleteUsers();
