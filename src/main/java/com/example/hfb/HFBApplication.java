@@ -33,8 +33,9 @@ public class HFBApplication {
             service.deleteUserRoles();
             service.deleteRoles();
             service.deleteRequests();
-            service.deleteCategories();
+            service.deleteFeedbacks();
             service.deleteFoods();
+            service.deleteCategories();
             service.deleteUsers();
 
             long datetime = Calendar.getInstance().getTimeInMillis();

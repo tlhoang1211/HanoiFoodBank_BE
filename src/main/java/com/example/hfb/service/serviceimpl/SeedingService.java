@@ -62,6 +62,9 @@ public class SeedingService {
         );
         feedbackRepository.save(feedback);
     }
+    public void deleteFeedbacks() {
+        feedbackRepository.deleteAll();
+    }
     public void saveDonation(Donation donation) {
         donationRepository.save(donation);
     }
