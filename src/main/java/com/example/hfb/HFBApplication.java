@@ -1594,11 +1594,6 @@ public class HFBApplication {
                     12
             ));
 
-            service.resetIdUser();
-            service.resetIdRole();
-            service.resetIdUserRole();
-            service.resetIdFood();
-            service.resetIdCategory();
 //
 //            ================================================================================================================================================
 //
