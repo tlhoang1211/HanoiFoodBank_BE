@@ -94,33 +94,33 @@ public class SeedingService {
     public void deleteFoods() {
         foodRepository.deleteAll();
     }
-    public void resetIdFood() {
-        foodRepository.resetId();
-    }
-    public void resetIdCategory() {
-        categoryRepository.resetId();
-    }
+//    public void resetIdFood() {
+//        foodRepository.resetId();
+//    }
+//    public void resetIdCategory() {
+//        categoryRepository.resetId();
+//    }
     public void saveCategory(Integer id, Integer userId, String name) {
         categoryRepository.save(new Category(id, userId, name));
     }
     public void deleteUserRoles() {
         userRoleRepository.deleteAll();
     }
-    public void resetIdUserRole() {
-        userRoleRepository.resetId();
-    }
+//    public void resetIdUserRole() {
+//        userRoleRepository.resetId();
+//    }
     public void deleteUsers() {
         userRepository.deleteAll();
     }
-    public void resetIdUser() {
-        userRepository.resetId();
-    }
+//    public void resetIdUser() {
+//        userRepository.resetId();
+//    }
     public void deleteRoles() {
         roleRepository.deleteAll();
     }
-    public void resetIdRole() {
-        roleRepository.resetId();
-    }
+//    public void resetIdRole() {
+//        roleRepository.resetId();
+//    }
     public RoleDTO saveRole(Role role) {
         return RoleDTO.roleDTO(roleRepository.save(role));
     }

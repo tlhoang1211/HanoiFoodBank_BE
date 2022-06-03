@@ -20,11 +20,11 @@ public interface UserRoleRepository extends JpaRepository<UserRole, UserRoleKey>
     List<UserRole> findByRole(Role role);
     @Modifying
     @Transactional
-    @Query(value = "drop table user_role;", nativeQuery = true)
+    @Query(value = "drop table if exists user_role;", nativeQuery = true)
     void deleteAll();
 
-    @Modifying
-    @Transactional
-    @Query(value = "ALTER TABLE user_role AUTO_INCREMENT = 1", nativeQuery = true)
-    void resetId();
+//    @Modifying
+//    @Transactional
+//    @Query(value = "ALTER TABLE user_role AUTO_INCREMENT = 1", nativeQuery = true)
+//    void resetId();
 }
