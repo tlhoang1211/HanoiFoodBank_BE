@@ -44,12 +44,6 @@ public class HFBApplication {
 //            // delete user
             service.deleteUsers();
 
-
-            service.resetIdUser();
-            service.resetIdRole();
-            service.resetIdUserRole();
-            service.resetIdFood();
-            service.resetIdCategory();
             long datetime = Calendar.getInstance().getTimeInMillis();
             // add role
             service.saveRole(new Role(1, "ROLE_ADMIN"));
@@ -1599,6 +1593,12 @@ public class HFBApplication {
                     service.findByCategoryId(12),
                     12
             ));
+
+            service.resetIdUser();
+            service.resetIdRole();
+            service.resetIdUserRole();
+            service.resetIdFood();
+            service.resetIdCategory();
 //
 //            ================================================================================================================================================
 //
