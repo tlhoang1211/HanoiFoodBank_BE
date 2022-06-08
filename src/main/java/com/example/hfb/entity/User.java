@@ -24,8 +24,8 @@ public class User {
     private String address;
     private String avatar;
     private int pointEvaluation;
-    private float currentPositionLatitude;
-    private float currentPositionLongitude;
+    private float positionLatitude;
+    private float positionLongitude;
     private long createdAt;
     private long updatedAt;
     private Integer createdBy;
@@ -35,16 +35,13 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL , fetch = FetchType.EAGER)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     Set<UserRole> userRoles = new HashSet<>();
-    public void setUserRoles(Set<UserRole> userRoles) {
-        this.userRoles = userRoles;
-        for(UserRole ur : userRoles) {
-            ur.setUser(this);
-        }
-    }
+
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL , fetch = FetchType.EAGER)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     Set<Request> requests = new HashSet<>();
+
+
     public void setRequests(Set<Request> requests) {
         this.requests = requests;
         for(Request r : requests) {
@@ -61,9 +58,7 @@ public class User {
         }
     }
 
-    public User(String name, String username, String password, String phone, String address, String avatar) {
-        this.createdAt = Calendar.getInstance().getTimeInMillis();
-        this.updatedAt = Calendar.getInstance().getTimeInMillis();
+    public User(String name, String username, String password, String phone, String address, String avatar, float positionLatitude, float positionLongitude) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -72,13 +67,17 @@ public class User {
         this.address = address;
         this.avatar = avatar;
         this.pointEvaluation = 0;
+        this.positionLatitude = positionLongitude;
+        this.positionLongitude = positionLatitude;
         this.createdBy = this.id;
         this.updatedBy = this.id;
         this.email = username;
         this.status = 1;
+        this.createdAt = Calendar.getInstance().getTimeInMillis();
+        this.updatedAt = Calendar.getInstance().getTimeInMillis();
     }
 
-    public User(Integer id, String name, String username, String password, String email, String phone, String address, String avatar, int pointEvaluation, long createdAt, long updatedAt, Integer createdBy, Integer updatedBy, int status) {
+    public User(Integer id, String name, String username, String password, String email, String phone, String address, String avatar, int pointEvaluation, long createdAt, long updatedAt, Integer createdBy, Integer updatedBy, int status, float positionLongitude, float positionLatitude) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -88,6 +87,8 @@ public class User {
         this.address = address;
         this.avatar = avatar;
         this.pointEvaluation = pointEvaluation;
+        this.positionLongitude = positionLongitude;
+        this.positionLatitude = positionLatitude;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.createdBy = createdBy;

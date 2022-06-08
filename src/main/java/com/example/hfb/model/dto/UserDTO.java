@@ -24,6 +24,8 @@ public class UserDTO {
     private Integer createdBy;
     private Integer updatedBy;
     private int pointEvaluation;
+    private float positionLatitude;
+    private float positionLongitude;
     private int status;
 
     public static UserDTO userDTO(User user){
@@ -40,6 +42,8 @@ public class UserDTO {
         tmp.setCreatedBy(user.getCreatedBy());
         tmp.setUpdatedBy(user.getUpdatedBy());
         tmp.setPointEvaluation(user.getPointEvaluation());
+        tmp.setPositionLatitude(user.getPositionLatitude());
+        tmp.setPositionLongitude(user.getPositionLongitude());
         tmp.setStatus(user.getStatus());
         return tmp;
     }
