@@ -20,11 +20,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "delete from account; commit;", nativeQuery = true)
+    @Query(value = "delete from account;", nativeQuery = true)
     void deleteAll();
 
     @Modifying
     @Transactional
-    @Query(value = "ALTER TABLE account AUTO_INCREMENT = 1; commit;", nativeQuery = true)
+    @Query(value = "ALTER TABLE account AUTO_INCREMENT = 1;", nativeQuery = true)
     void resetId();
 }

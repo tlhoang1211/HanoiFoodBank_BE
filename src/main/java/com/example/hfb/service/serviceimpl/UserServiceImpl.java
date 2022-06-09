@@ -57,7 +57,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 model.getPassword(),
                 model.getPhone(),
                 model.getAddress(),
-                model.getAvatar()
+                model.getAvatar(),
+                model.getPositionLongitude(),
+                model.getPositionLatitude()
         );
         newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
         userRepository.save(newUser);
