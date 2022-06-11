@@ -25,6 +25,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "ALTER TABLE account AUTO_INCREMENT = 1;", nativeQuery = true)
+    @Query(value = "ALTER sequence account_id_seq restart with 1", nativeQuery = true)
     void resetId();
 }

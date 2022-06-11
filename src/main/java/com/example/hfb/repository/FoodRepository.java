@@ -73,6 +73,6 @@ public interface FoodRepository extends JpaRepository<Food, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "ALTER TABLE food AUTO_INCREMENT = 1; commit;", nativeQuery = true)
+    @Query(value = "ALTER sequence food_id_seq restart with 1", nativeQuery = true)
     void resetId();
 }

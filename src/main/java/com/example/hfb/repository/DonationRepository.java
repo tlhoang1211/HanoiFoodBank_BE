@@ -57,6 +57,6 @@ public interface DonationRepository extends JpaRepository<Donation, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "ALTER TABLE donation AUTO_INCREMENT = 1; commit;", nativeQuery = true)
+    @Query(value = "ALTER sequence donation_id_seq restart with 1", nativeQuery = true)
     void resetId();
 }

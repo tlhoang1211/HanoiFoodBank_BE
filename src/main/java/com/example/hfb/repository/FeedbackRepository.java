@@ -39,6 +39,6 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "ALTER TABLE feedback AUTO_INCREMENT = 1; commit;", nativeQuery = true)
+    @Query(value = "ALTER sequence feedback_id_seq restart with 1", nativeQuery = true)
     void resetId();
 }

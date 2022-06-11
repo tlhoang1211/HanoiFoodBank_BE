@@ -125,9 +125,6 @@ public class SeedingService {
     public void deleteUserRoles() {
         userRoleRepository.deleteAll();
     }
-    public void resetIdUserRole() {
-        userRoleRepository.resetId();
-    }
     public void deleteUsers() {
         userRepository.deleteAll();
     }

@@ -28,6 +28,6 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "ALTER TABLE role AUTO_INCREMENT = 1; commit;", nativeQuery = true)
+    @Query(value = "ALTER sequence role_id_seq restart with 1", nativeQuery = true)
     void resetId();
 }

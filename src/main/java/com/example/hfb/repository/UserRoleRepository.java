@@ -23,8 +23,4 @@ public interface UserRoleRepository extends JpaRepository<UserRole, UserRoleKey>
     @Query(value = "delete from user_role;", nativeQuery = true)
     void deleteAll();
 
-    @Modifying
-    @Transactional
-    @Query(value = "ALTER TABLE user_role AUTO_INCREMENT = 1;", nativeQuery = true)
-    void resetId();
 }

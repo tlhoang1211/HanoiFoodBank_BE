@@ -100,6 +100,6 @@ public interface RequestRepository extends JpaRepository<Request, UserFoodKey> {
 
     @Modifying
     @Transactional
-    @Query(value = "ALTER TABLE request AUTO_INCREMENT = 1; commit;", nativeQuery = true)
+    @Query(value = "ALTER sequence request_id_seq restart with 1", nativeQuery = true)
     void resetId();
 }
