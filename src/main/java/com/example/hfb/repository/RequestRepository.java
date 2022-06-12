@@ -97,9 +97,4 @@ public interface RequestRepository extends JpaRepository<Request, UserFoodKey> {
     @Transactional
     @Query(value = "delete from request; commit;", nativeQuery = true)
     void deleteAll();
-
-    @Modifying
-    @Transactional
-    @Query(value = "ALTER sequence request_id_seq restart with 1", nativeQuery = true)
-    void resetId();
 }

@@ -36,7 +36,6 @@ public class HFBApplication {
             service.resetIdRole();
 
             service.deleteRequests();
-            service.resetIdRequest();
 
             service.deleteFeedbacks();
             service.resetIdFeedback();

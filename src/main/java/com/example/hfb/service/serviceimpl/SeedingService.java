@@ -98,9 +98,6 @@ public class SeedingService {
         requestRepository.save(request);
     }
 
-    public void resetIdRequest() {
-        requestRepository.resetId();
-    }
     public void findByIdUser(Integer id) {
         userRepository.findById(id);
     }
