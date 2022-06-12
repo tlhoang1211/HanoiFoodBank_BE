@@ -59,7 +59,6 @@ public class HFBApplication {
             service.saveRole(new Role(2, "ROLE_USER"));
 
            // add user
-            service.saveUser(new User(1, "admin", "admin@gmail.com", "123", "admin@gmail.com", "09061234", "Ha noi", "v1636104927/hanoi_food_bank_project/users_avatar/admin.jpg", 100, datetime, datetime, 1, 1, 1, 105.823855f, 21.003223f));
             service.saveUser(new User(1, "admin", "admin@gmail.com", "123", "admin@gmail.com", "09061234", "Ha noi", "v1636104927/hanoi_food_bank_project/users_avatar/admin.jpg", 100, datetime, datetime, 1, 1, 1, 105.8281975f, 20.9997882f));
             service.saveUser(new User(2, "Tran Hoang", "tlhoang1211@gmail.com", "123", "tlhoang1211@gmail.com", "09061234", "Ha noi", "v1636303335/hanoi_food_bank_project/users_avatar/user1.jpg", 100, datetime, datetime, 1, 1, 1, 105.829867f, 21.002032f));
             service.saveUser(new User(3, "A", "test1@gmail.com", "123", "test1@gmail.com", "09061234", "Ha noi", "v1636105006/hanoi_food_bank_project/users_avatar/food%20donor.png", 100, datetime, datetime, 1, 1, 1, 105.845201f, 21.006841f));
