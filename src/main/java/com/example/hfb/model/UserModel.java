@@ -13,8 +13,8 @@ public class UserModel {
     private String username;
     private String password;
     private int pointEvaluation;
-    private float positionLatitude;
-    private float positionLongitude;
+    private double positionLatitude;
+    private double positionLongitude;
     private String avatar;
     private String email;
     private String phone;

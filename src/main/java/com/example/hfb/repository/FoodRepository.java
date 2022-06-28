@@ -1,9 +1,7 @@
 package com.example.hfb.repository;
 
-import com.example.hfb.entity.Category;
 import com.example.hfb.entity.Food;
-import com.example.hfb.model.dto.StatisticDonation;
-import com.example.hfb.model.dto.StatisticFood;
+import com.example.hfb.entity.FoodPro;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -75,4 +73,26 @@ public interface FoodRepository extends JpaRepository<Food, Integer> {
     @Transactional
     @Query(value = "ALTER sequence food_id_seq restart with 1", nativeQuery = true)
     void resetId();
+
+    @Query(value = "with a as (select id,\n" +
+            "                  (\n" +
+            "                          6371 *\n" +
+            "                          acos(cos(radians(:lat)) *\n" +
+            "                               cos(radians(position_latitude)) *\n" +
+            "                               cos(radians(position_longitude) -\n" +
+            "                                   radians(:lng)) +\n" +
+            "                               sin(radians(:lat)) *\n" +
+            "                               sin(radians(position_latitude)))\n" +
+            "                      ) as distance\n" +
+            "           from account),\n" +
+            "     b as (select *\n" +
+            "           from a\n" +
+            "           where distance < :distance\n" +
+            "           order by distance)\n" +
+            "select * from food where created_by in (select id from b)\n", nativeQuery = true)
+    Page<FoodPro> getNearestLocation (@Param(value="lng") double lng,
+                                      @Param(value="lat") double lat,
+                                      @Param(value="distance") int distance,
+                                      Pageable pageable);
+
 }

@@ -24,8 +24,8 @@ public class UserDTO {
     private Integer createdBy;
     private Integer updatedBy;
     private int pointEvaluation;
-    private float positionLatitude;
-    private float positionLongitude;
+    private double positionLatitude;
+    private double positionLongitude;
     private int status;
 
     public static UserDTO userDTO(User user){

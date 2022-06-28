@@ -24,8 +24,8 @@ public class User {
     private String address;
     private String avatar;
     private int pointEvaluation;
-    private float positionLatitude;
-    private float positionLongitude;
+    private double positionLatitude;
+    private double positionLongitude;
     private long createdAt;
     private long updatedAt;
     private Integer createdBy;
@@ -58,7 +58,7 @@ public class User {
         }
     }
 
-    public User(String name, String username, String password, String phone, String address, String avatar, float positionLatitude, float positionLongitude) {
+    public User(String name, String username, String password, String phone, String address, String avatar, double positionLatitude, double positionLongitude) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -77,7 +77,7 @@ public class User {
         this.updatedAt = Calendar.getInstance().getTimeInMillis();
     }
 
-    public User(Integer id, String name, String username, String password, String email, String phone, String address, String avatar, int pointEvaluation, long createdAt, long updatedAt, Integer createdBy, Integer updatedBy, int status, float positionLongitude, float positionLatitude) {
+    public User(Integer id, String name, String username, String password, String email, String phone, String address, String avatar, int pointEvaluation, long createdAt, long updatedAt, Integer createdBy, Integer updatedBy, int status, double positionLongitude, double positionLatitude) {
         this.id = id;
         this.name = name;
         this.username = username;
