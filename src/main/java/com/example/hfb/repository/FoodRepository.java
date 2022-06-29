@@ -89,10 +89,8 @@ public interface FoodRepository extends JpaRepository<Food, Integer> {
             "           from a\n" +
             "           where distance < :distance\n" +
             "           order by distance)\n" +
-            "select * from food where created_by in (select id from b)\n", nativeQuery = true)
-    Page<FoodPro> getNearestLocation (@Param(value="lng") double lng,
+            "select * from food where created_by in (select id from b) and status = 2\n", nativeQuery = true)
+    List<FoodPro> getNearestLocation (@Param(value="lng") double lng,
                                       @Param(value="lat") double lat,
-                                      @Param(value="distance") int distance,
-                                      Pageable pageable);
-
+                                      @Param(value="distance") int distance);
 }

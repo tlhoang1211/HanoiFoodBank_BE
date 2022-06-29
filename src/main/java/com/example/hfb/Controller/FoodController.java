@@ -85,7 +85,7 @@ public class FoodController {
             @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
             @RequestParam(name = "limit", required = false, defaultValue = "0") int limit,
             @RequestParam(name = "order", required = false, defaultValue = "desc") String order) {
-        return foodService.getNearestLocation(postionLongitude, postionLatitude, distance, page, sortBy, limit, order);
+        return foodService.getNearestLocation(postionLongitude, postionLatitude, distance);
     }
 }
 

@@ -100,8 +100,8 @@ public class HFBApplication {
                     service.findByCategoryId(1),
                     1)
             );
-            service.saveFood(new Food(3,"Nước ép rau má","1636267616/hanoi_food_bank_project/uploaded_food/Drinks/rauma1_u1z0ar.jpg",
-                    "1636267616/hanoi_food_bank_project/uploaded_food/Drinks/rauma1_u1z0ar.jpg,v1636267708/hanoi_food_bank_project/uploaded_food/Drinks/rauma_rg6r2a.jpg",
+            service.saveFood(new Food(3,"Nước ép rau má","v1636267616/hanoi_food_bank_project/uploaded_food/Drinks/rauma1_u1z0ar.jpg",
+                    "v1636267616/hanoi_food_bank_project/uploaded_food/Drinks/rauma1_u1z0ar.jpg,v1636267708/hanoi_food_bank_project/uploaded_food/Drinks/rauma_rg6r2a.jpg",
                     "Nước ép đậu xanh rau má tốt cho sức khỏe, thanh lọc cơ thể", "5 suất cho những chiếc bụng đói",
                     Utilities.convertStringToLong("2022-08-06"), Utilities.convertStringToLong("2022-08-03"), Utilities.convertStringToLong("2022-08-03"), 4, 4,
                     service.findByCategoryId(1),

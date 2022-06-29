@@ -28,8 +28,5 @@ public interface FoodService {
                                           String sortBy,
                                           int limit,
                                           String order);
-    ResponseEntity<ResponseData> getNearestLocation(double positionLongitude, double positionLatitude, int distance, int page,
-                                                    String sortBy,
-                                                    int limit,
-                                                    String order);
+    ResponseEntity<ResponseData> getNearestLocation(double positionLongitude, double positionLatitude, int distance);
 }
