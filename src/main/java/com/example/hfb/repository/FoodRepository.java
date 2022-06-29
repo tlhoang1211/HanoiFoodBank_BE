@@ -92,5 +92,5 @@ public interface FoodRepository extends JpaRepository<Food, Integer> {
             "select * from food where created_by in (select id from b) and status = 2\n", nativeQuery = true)
     List<FoodPro> getNearestLocation (@Param(value="lng") double lng,
                                       @Param(value="lat") double lat,
-                                      @Param(value="distance") int distance);
+                                      @Param(value="distance") double distance);
 }

@@ -316,7 +316,7 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public ResponseEntity<ResponseData> getNearestLocation(double positionLongitude,
                                                            double positionLatitude,
-                                                           int distance) {
+                                                           double distance) {
         List<FoodPro> data = foodRepository.getNearestLocation(
                 positionLongitude,
                 positionLatitude,

@@ -80,11 +80,7 @@ public class FoodController {
     public ResponseEntity<ResponseData> getNearestLocation(
             @RequestParam(name = "postionLongitude") double postionLongitude,
             @RequestParam(name = "postionLatitude") double postionLatitude,
-            @RequestParam(name = "distance") int distance,
-            @RequestParam(name = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
-            @RequestParam(name = "limit", required = false, defaultValue = "0") int limit,
-            @RequestParam(name = "order", required = false, defaultValue = "desc") String order) {
+            @RequestParam(name = "distance") double distance) {
         return foodService.getNearestLocation(postionLongitude, postionLatitude, distance);
     }
 }
