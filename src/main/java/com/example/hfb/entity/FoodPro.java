@@ -1,7 +1,5 @@
 package com.example.hfb.entity;
 
-import java.math.BigInteger;
-
 public interface FoodPro {
     long getId();
     String getAvatar();

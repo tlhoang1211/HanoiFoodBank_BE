@@ -25,7 +25,7 @@ public class FoodDTO {
     private String createdAt;
     private String updatedAt;
     private Integer createdBy;
-    private Integer UpdatedBy;
+    private Integer updatedBy;
     private int categoryId;
     private int status;
     private String category;
