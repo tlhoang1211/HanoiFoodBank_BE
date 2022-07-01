@@ -316,21 +316,26 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public ResponseEntity<ResponseData> getNearestLocation(double positionLongitude,
                                                            double positionLatitude,
-                                                           double distance) {
-//        Sort.Direction direction = Sort.Direction.DESC;
-//        if (order.equals("asc")) {
-//            direction = Sort.Direction.ASC;
-//        }
-//
-//        Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE, Sort.by(direction, sortBy));
-//        if (limit > 0) {
-//            pageable = PageRequest.of(page, limit, Sort.by(direction, sortBy));
-//        }
+                                                           double distance,
+                                                           int page,
+                                                           String sortBy,
+                                                           int limit,
+                                                           String order) {
+        Sort.Direction direction = Sort.Direction.DESC;
+        if (order.equals("asc")) {
+            direction = Sort.Direction.ASC;
+        }
+
+        Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE, Sort.by(direction, sortBy));
+        if (limit > 0) {
+            pageable = PageRequest.of(page, limit, Sort.by(direction, sortBy));
+        }
 
         List<FoodPro> data = foodRepository.getNearestLocation(
                 positionLongitude,
                 positionLatitude,
-                distance);
+                distance,
+                pageable);
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseData(HttpStatus.OK.value(), "Successful", data));
