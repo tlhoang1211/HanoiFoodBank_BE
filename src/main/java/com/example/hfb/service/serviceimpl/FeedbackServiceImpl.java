@@ -49,7 +49,8 @@ public class FeedbackServiceImpl implements FeedbackService {
                 model.getType(),
                 model.getCreatedBy(),
                 user,
-                model.getUserId()
+                model.getUserId(),
+                model.getRequestId()
         );
         User u = userRepository.findById(model.getUserId()).orElse(null);
         User sent = userRepository.findById(model.getCreatedBy()).orElse(null);
@@ -62,19 +63,22 @@ public class FeedbackServiceImpl implements FeedbackService {
     public ResponseEntity<ResponseData> update(FeedbackModel model, Integer id) {
         List<String> errors = new ArrayList<>();
         if (model.getContent() == null) {
-            errors.add("Content is not empty");
+            errors.add("Content is empty");
         }
         if (model.getType() == null) {
-            errors.add("Type is not empty");
+            errors.add("Type is empty");
         }
         if (model.getUpdatedBy() == null) {
-            errors.add("UpdatedBy is not empty");
+            errors.add("UpdatedBy is empty");
         }
         if (model.getStatus() == null) {
-            errors.add("Status is not empty");
+            errors.add("Status is empty");
         }
         if (model.getUserId() == null) {
-            errors.add("UserId is not empty");
+            errors.add("UserId is empty");
+        }
+        if (model.getRequestId() == null) {
+            errors.add("RequestId is empty");
         }
         if (errors.size() > 0) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
@@ -85,6 +89,7 @@ public class FeedbackServiceImpl implements FeedbackService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     new ResponseData(HttpStatus.NOT_FOUND.value(), "Cannot find user with id " + model.getUserId(), ""));
         }
+
         Feedback feedbackUpdate = feedbackRepository.findById(id).map(feedback -> {
             feedback.setImage(model.getImage());
             feedback.setContent(model.getContent());
@@ -93,6 +98,7 @@ public class FeedbackServiceImpl implements FeedbackService {
             feedback.setUpdatedAt(Calendar.getInstance().getTimeInMillis());
             feedback.setStatus(model.getStatus());
             feedback.setUserId(model.getUserId());
+            feedback.setRequestId(model.getRequestId());
             feedback.setUpdatedBy(model.getUpdatedBy());
             feedback.setUser(user);
             return feedbackRepository.save(feedback);
@@ -124,7 +130,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public ResponseEntity<ResponseData> findAll(Integer type, Integer status, Integer createdBy, Integer userId, Integer startRate, Integer endRate, int page, String sortBy, int limit, String order) {
+    public ResponseEntity<ResponseData> findAll(Integer type, Integer status, Integer createdBy, Integer userId, Integer requestId, Integer startRate, Integer endRate, int page, String sortBy, int limit, String order) {
         Sort.Direction direction = Sort.Direction.DESC;
         if (order.equals("asc")){
             direction = Sort.Direction.ASC;
@@ -134,7 +140,7 @@ public class FeedbackServiceImpl implements FeedbackService {
             pageable = PageRequest.of(page, limit, Sort.by(direction, sortBy));
         }
 
-        Page<Feedback> feedbacks = feedbackRepository.findAll(type, status, createdBy, userId, startRate, endRate, pageable);
+        Page<Feedback> feedbacks = feedbackRepository.findAll(type, status, createdBy, userId, requestId, startRate, endRate, pageable);
         Page<FeedbackDTO> dtoPage = feedbacks.map(new Function<Feedback, FeedbackDTO>() {
             @Override
             public FeedbackDTO apply(Feedback feedback) {

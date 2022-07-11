@@ -26,6 +26,7 @@ public class FeedbackDTO {
     private String avatar;
     private Integer UpdatedBy;
     private int userId;
+    private int requestId;
     private int status;
 
     public static FeedbackDTO feedbackDTO(Feedback feedback){

@@ -37,7 +37,10 @@ public class Feedback {
     @Column(insertable = false, updatable = false)
     private int userId;
 
-    public Feedback(String image, String content, int rate, int type, Integer createdBy, User user, int userId) {
+    @Column(insertable = false, updatable = false)
+    private Integer requestId;
+
+    public Feedback(String image, String content, int rate, int type, Integer createdBy, User user, int userId, int requestId) {
         this.image = image;
         this.content = content;
         this.rate = rate;
@@ -49,9 +52,10 @@ public class Feedback {
         this.status = 1;
         this.user = user;
         this.userId = userId;
+        this.requestId = requestId;
     }
 
-    public Feedback(Integer id, String image, String content, int rate, int type, Integer createdBy, User user, int userId) {
+    public Feedback(Integer id, String image, String content, int rate, int type, Integer createdBy, User user, int userId, int requestId) {
         this.id = id;
         this.image = image;
         this.content = content;
@@ -64,5 +68,6 @@ public class Feedback {
         this.status = 1;
         this.user = user;
         this.userId = userId;
+        this.requestId = requestId;
     }
 }

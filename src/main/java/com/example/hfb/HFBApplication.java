@@ -2050,78 +2050,8 @@ public class HFBApplication {
 //            service.saveRequest(3, 106, "nhìn ngon quá cho em xin món này vs ạ", "2022-11-08", "2022-11-08");
 //
 //            // Feedback
-            service.saveFeedback(1, "image", "content", 5, 1, 2, 1);
-            service.saveFeedback(1, "v1636225794/hanoi_food_bank_project/uploaded_food/Fruit/xoai3_dwlb0l.jpg",
-                    "xoài rất thơm, cho 1 like", 5, 2, 5, 2);
-            service.saveFeedback(2, "v1636225792/hanoi_food_bank_project/uploaded_food/Fruit/thanhlong1_wh9zfe.jpg",
-                    "content", 5, 2, 5, 2);
-            service.saveFeedback(3, "v1636225792/hanoi_food_bank_project/uploaded_food/Fruit/roi3_qu2vv8.png",
-                    "content", 5, 2, 5, 2);
-            service.saveFeedback(4, "v1636225792/hanoi_food_bank_project/uploaded_food/Fruit/tao3_ghdoug.jpg",
-                    "Táo ròn và ngọt", 5, 2, 5, 3);
-            service.saveFeedback(5, "v1636225792/hanoi_food_bank_project/uploaded_food/Fruit/mit3_frlbub.jpg",
-                    "Mít thơm quá", 5, 2, 5, 2);
-            service.saveFeedback(6, "v1636225790/hanoi_food_bank_project/uploaded_food/Fruit/chomchom2_updkwz.jpg",
-                    "còn không các bạn", 5, 2, 5, 3);
-            service.saveFeedback(7, "v1636225790/hanoi_food_bank_project/uploaded_food/Fruit/khe2_tkcxpz.jpg",
-                    "lâu lắm rồi mới lại ăn khế ngọt vậy", 4, 2, 5, 2);
-            service.saveFeedback(8, "v1636225789/hanoi_food_bank_project/uploaded_food/Fruit/chanhday1_neq9fr.jpg",
-                    "Cảm ơn nhé", 4, 2, 5, 2);
-            service.saveFeedback(9, "v1636225789/hanoi_food_bank_project/uploaded_food/Fruit/dautay3_xvfgbz.jpg",
-                    "Thanks", 4, 2, 5, 2);
-            service.saveFeedback(10, "v1636225788/hanoi_food_bank_project/uploaded_food/Fruit/banana3_aj8e6i.jpg",
-                    "lần sau lại cho mk nhé", 4, 2, 5, 2);
-            service.saveFeedback(11, "v1636225761/hanoi_food_bank_project/uploaded_food/Fast%20Food/pizza2_zd7dtl.png",
-                    "wow", 4, 2, 5, 2);
-            service.saveFeedback(12, "v1636225761/hanoi_food_bank_project/uploaded_food/Fast%20Food/xucxich2_ldcmlf.jpg",
-                    "hot hot", 5, 2, 5, 2);
-            service.saveFeedback(13, "v1636225759/hanoi_food_bank_project/uploaded_food/Fast%20Food/khoaitaylac3_ckgctu.png",
-                    "lần đầu ăn, ngon quá", 5, 2, 5, 3);
-            service.saveFeedback(14, "v1636225759/hanoi_food_bank_project/uploaded_food/Fast%20Food/xienthitnuong1_aoombt.jpg",
-                    "bạn nay ngoan", 5, 1, 5, 2);
-            service.saveFeedback(15, "v1636225758/hanoi_food_bank_project/uploaded_food/Fast%20Food/sandwich3_veett9.jpg",
-                    "ok", 5, 1, 5, 2);
-            service.saveFeedback(16, "v1636225757/hanoi_food_bank_project/uploaded_food/Fast%20Food/nemchuanuong2_hlvasd.jpg",
-                    "lại ok", 5, 1, 5, 4);
-            service.saveFeedback(17, "v1636225756/hanoi_food_bank_project/uploaded_food/Fast%20Food/garan2_yoaeq2.jpg",
-                    "rất ngoan chúc ngon miệng", 5, 1, 5, 2);
-            service.saveFeedback(18, "v1636225756/hanoi_food_bank_project/uploaded_food/Fast%20Food/hamburger3_nqmtvf.jpg",
-                    "vẫn còn nóng hổi", 4, 1, 5, 4);
-            service.saveFeedback(19, "v1636225755/hanoi_food_bank_project/uploaded_food/Fast%20Food/cavienchien1_cf2pgn.png",
-                    "ăn ngon nhé", 5, 1, 5, 2);
-            service.saveFeedback(20, "v1636225755/hanoi_food_bank_project/uploaded_food/Fast%20Food/donuts1_vfwgsu.jpg",
-                    "cảm ơn", 5, 2, 5, 2);
-            service.saveFeedback(21, "v1636225828/hanoi_food_bank_project/uploaded_food/Snacks/snackrongbien3_c0ysfm.png",
-                    "chúc ngon miêngj", 5, 1, 5, 2);
-            service.saveFeedback(22, "v1636225826/hanoi_food_bank_project/uploaded_food/Snacks/snackphomai2_qjglw7.jpg",
-                    "ngậy ngậy", 4, 1, 5, 2);
-            service.saveFeedback(23, "v1636225826/hanoi_food_bank_project/uploaded_food/Snacks/snackmuc1_ayza92.jpg",
-                    "haha", 5, 2, 5, 3);
-            service.saveFeedback(24, "v1636225825/hanoi_food_bank_project/uploaded_food/Snacks/snackkhoaitay2_wwbsde.jpg",
-                    "rất ngon ạ", 5, 1, 5, 4);
-            service.saveFeedback(25, "v1636225824/hanoi_food_bank_project/uploaded_food/Snacks/snackhanh3_f7f3mf.jpg",
-                    "okay", 5, 1, 5, 3);
-            service.saveFeedback(26, "v1636225824/hanoi_food_bank_project/uploaded_food/Snacks/snackcua3_yfzv5r.jpg",
-                    "cảm ơn", 5, 2, 5, 2);
-            service.saveFeedback(27, "v1636225823/hanoi_food_bank_project/uploaded_food/Snacks/snackbido2_eh2tnw.jpg",
-                    "đỉnh cao", 5, 1, 5, 3);
-            service.saveFeedback(28, "v1636225822/hanoi_food_bank_project/uploaded_food/Snacks/phongtom2_kocvjd.jpg",
-                    "Được của nó", 4, 2, 5, 4);
-            service.saveFeedback(29, "v1636225821/hanoi_food_bank_project/uploaded_food/Snacks/khoaitayque1_jywhvn.jpg",
-                    "rất dài và mềm", 5, 1, 5, 4);
-            service.saveFeedback(30, "v1636225822/hanoi_food_bank_project/uploaded_food/Snacks/snackbapngot3_a7qf9y.jpg",
-                    "thơm mùi bơ", 4, 2, 5, 2);
-            service.saveFeedback(31, "v1636225854/hanoi_food_bank_project/uploaded_food/Others/salat3_lw1tgv.jpg",
-                    "ăn ngon nhé", 4, 1, 5, 2);
-            service.saveFeedback(32, "v1636225852/hanoi_food_bank_project/uploaded_food/Others/phocuon2_myzqcv.png",
-                    "rất nhiều thịt heo", 5, 1, 5, 3);
-            service.saveFeedback(33, "v1636225851/hanoi_food_bank_project/uploaded_food/Others/keocudo2_etqdvv.jpg",
-                    "tuổi thơ dữ dội", 5, 1, 5, 2);
-            service.saveFeedback(34, "v1636225851/hanoi_food_bank_project/uploaded_food/Others/nemchuathanhhoa1_yr4nun.jpg",
-                    "có lại cho", 5, 1, 5, 3);
-            service.saveFeedback(35, "v1636225850/hanoi_food_bank_project/uploaded_food/Others/friedegg3_hdf4sg.jpg",
-                    "ngon quá", 5, 2, 5, 2);
-
+//            service.saveFeedback(1, "v1636225794/hanoi_food_bank_project/uploaded_food/Fruit/xoai3_dwlb0l.jpg",
+//                    "xoài rất thơm, cho 1 like", 5, 2, 1, 1, 2);
         };
     }
 

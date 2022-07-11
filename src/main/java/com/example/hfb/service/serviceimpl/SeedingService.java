@@ -48,7 +48,7 @@ public class SeedingService {
     public void saveFood(Food food) {
         foodRepository.save(food);
     }
-    public void saveFeedback(Integer id, String image, String content, int rate, int type, Integer toUserId, Integer createdBy) {
+    public void saveFeedback(Integer id, String image, String content, int rate, int type, Integer toUserId, Integer requestId, Integer createdBy) {
         User user = userRepository.findById(toUserId).orElse(null);
         Feedback feedback = new Feedback(
                 id,
@@ -58,7 +58,8 @@ public class SeedingService {
                 type,
                 createdBy,
                 user,
-                toUserId
+                toUserId,
+                requestId
         );
         feedbackRepository.save(feedback);
     }
@@ -142,10 +143,10 @@ public class SeedingService {
         Role role = roleRepository.findByName(roleName);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot found this user in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Couldn't found this user in database", ""));
         } else if (role == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot found this role in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Couldn't found this role in database", ""));
         }
         userRoleRepository.save(new UserRole(new UserRoleKey(user.getId(), role.getId()), user, role));
         return ResponseEntity.status(HttpStatus.OK.value()).body(
