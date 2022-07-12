@@ -158,9 +158,6 @@ public class HFBApplication {
             );
 
 
-
-
-
             // noodle
             service.saveFood(new Food(11,"Bún chả","v1636248349/hanoi_food_bank_project/uploaded_food/Noodle/buncha_qy0fhc.jpg",
                     "v1636248349/hanoi_food_bank_project/uploaded_food/Noodle/buncha_qy0fhc.jpg,v1636248356/hanoi_food_bank_project/uploaded_food/Noodle/buncha1_h7apju.jpg",
@@ -2051,7 +2048,7 @@ public class HFBApplication {
 //
 //            // Feedback
 //            service.saveFeedback(1, "v1636225794/hanoi_food_bank_project/uploaded_food/Fruit/xoai3_dwlb0l.jpg",
-//                    "xoài rất thơm, cho 1 like", 5, 2, 1, 1, 2);
+//                    "xoài rất thơm, cho 1 like", 5, 2, 1, 1);
         };
     }
 

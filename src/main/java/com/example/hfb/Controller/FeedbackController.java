@@ -36,7 +36,6 @@ public class FeedbackController {
             @RequestParam(name = "status", required = false, defaultValue = "-1") int status,
             @RequestParam(name = "createdBy", required = false, defaultValue = "-1") Integer createdBy,
             @RequestParam(name = "userId", required = false, defaultValue = "-1") Integer userId,
-            @RequestParam(name = "requestId", required = false, defaultValue = "-1") Integer requestId,
             @RequestParam(name = "startRate", required = false, defaultValue = "-1") int startRate,
             @RequestParam(name = "endRate", required = false, defaultValue = "-1") int endRate,
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
@@ -44,6 +43,6 @@ public class FeedbackController {
             @RequestParam(name = "limit", required = false, defaultValue = "0") int limit,
             @RequestParam(name = "order", required = false, defaultValue = "desc") String order) {
 
-        return service.findAll(type, status, createdBy, userId, requestId, startRate, endRate, page, sortBy, limit, order);
+        return service.findAll(type, status, createdBy, userId, startRate, endRate, page, sortBy, limit, order);
     }
 }

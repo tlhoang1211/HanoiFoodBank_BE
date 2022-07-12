@@ -49,8 +49,7 @@ public class FeedbackServiceImpl implements FeedbackService {
                 model.getType(),
                 model.getCreatedBy(),
                 user,
-                model.getUserId(),
-                model.getRequestId()
+                model.getUserId()
         );
         User u = userRepository.findById(model.getUserId()).orElse(null);
         User sent = userRepository.findById(model.getCreatedBy()).orElse(null);
@@ -77,9 +76,6 @@ public class FeedbackServiceImpl implements FeedbackService {
         if (model.getUserId() == null) {
             errors.add("UserId is empty");
         }
-        if (model.getRequestId() == null) {
-            errors.add("RequestId is empty");
-        }
         if (errors.size() > 0) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
                     new ResponseData(HttpStatus.NOT_IMPLEMENTED.value(), HttpStatus.NOT_IMPLEMENTED.toString(), errors));
@@ -98,7 +94,6 @@ public class FeedbackServiceImpl implements FeedbackService {
             feedback.setUpdatedAt(Calendar.getInstance().getTimeInMillis());
             feedback.setStatus(model.getStatus());
             feedback.setUserId(model.getUserId());
-            feedback.setRequestId(model.getRequestId());
             feedback.setUpdatedBy(model.getUpdatedBy());
             feedback.setUser(user);
             return feedbackRepository.save(feedback);
@@ -130,7 +125,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public ResponseEntity<ResponseData> findAll(Integer type, Integer status, Integer createdBy, Integer userId, Integer requestId, Integer startRate, Integer endRate, int page, String sortBy, int limit, String order) {
+    public ResponseEntity<ResponseData> findAll(Integer type, Integer status, Integer createdBy, Integer userId, Integer startRate, Integer endRate, int page, String sortBy, int limit, String order) {
         Sort.Direction direction = Sort.Direction.DESC;
         if (order.equals("asc")){
             direction = Sort.Direction.ASC;
@@ -140,7 +135,7 @@ public class FeedbackServiceImpl implements FeedbackService {
             pageable = PageRequest.of(page, limit, Sort.by(direction, sortBy));
         }
 
-        Page<Feedback> feedbacks = feedbackRepository.findAll(type, status, createdBy, userId, requestId, startRate, endRate, pageable);
+        Page<Feedback> feedbacks = feedbackRepository.findAll(type, status, createdBy, userId, startRate, endRate, pageable);
         Page<FeedbackDTO> dtoPage = feedbacks.map(new Function<Feedback, FeedbackDTO>() {
             @Override
             public FeedbackDTO apply(Feedback feedback) {

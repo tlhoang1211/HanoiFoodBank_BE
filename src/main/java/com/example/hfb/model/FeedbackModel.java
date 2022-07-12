@@ -19,5 +19,4 @@ public class FeedbackModel {
     private Integer updatedBy;
     private Integer status;
     private Integer userId;
-    private Integer requestId;
 }

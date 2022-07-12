@@ -22,14 +22,12 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
             "AND ((f.rate between :startRate and :endRate) OR (:startRate = -1 AND :endRate = -1))" +
             "AND (f.status = :status OR :status = -1) " +
             "AND (f.createdBy = :createdBy OR :createdBy = -1) " +
-            "AND (f.userId = :userId OR :userId = -1)" +
-            "AND (f.requestId = :requestId OR :requestId = -1)")
+            "AND (f.userId = :userId OR :userId = -1)")
     Page<Feedback> findAll(
             @Param(value="type") Integer type,
             @Param(value="status") Integer status,
             @Param(value="createdBy") Integer createdBy,
             @Param(value="userId") Integer userId,
-            @Param(value="requestId") Integer requestId,
             @Param(value="startRate") Integer startRate,
             @Param(value="endRate") Integer endRate,
             Pageable pageable);
