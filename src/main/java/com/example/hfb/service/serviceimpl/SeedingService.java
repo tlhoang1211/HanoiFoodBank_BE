@@ -48,8 +48,9 @@ public class SeedingService {
     public void saveFood(Food food) {
         foodRepository.save(food);
     }
-    public void saveFeedback(Integer id, String image, String content, int rate, int type, Integer toUserId, Integer createdBy) {
+    public void saveFeedback(Integer id, String image, String content, int rate, int type, Integer toUserId, Integer foodId, Integer createdBy) {
         User user = userRepository.findById(toUserId).orElse(null);
+        Food food = foodRepository.findById(foodId).orElse(null);
         Feedback feedback = new Feedback(
                 id,
                 image,
@@ -58,7 +59,9 @@ public class SeedingService {
                 type,
                 createdBy,
                 user,
-                toUserId
+                toUserId,
+                food,
+                foodId
         );
         feedbackRepository.save(feedback);
     }

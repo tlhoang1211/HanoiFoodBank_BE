@@ -31,6 +31,9 @@ public class Food {
     private Integer updatedBy;
     private int status;
 
+    @OneToOne(mappedBy = "food")
+    private Feedback feedback;
+
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL , fetch = FetchType.EAGER)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     Set<Request> requests = new HashSet<>();

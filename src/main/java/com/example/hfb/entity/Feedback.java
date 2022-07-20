@@ -37,7 +37,14 @@ public class Feedback {
     @Column(insertable = false, updatable = false)
     private int userId;
 
-    public Feedback(String image, String content, int rate, int type, Integer createdBy, User user, int userId) {
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "foodId", nullable = false, referencedColumnName = "id")
+    private Food food;
+
+    @Column(insertable = false, updatable = false)
+    private int foodId;
+
+    public Feedback(String image, String content, int rate, int type, Integer createdBy, User user, int userId, Food food, int foodId) {
         this.image = image;
         this.content = content;
         this.rate = rate;
@@ -49,9 +56,11 @@ public class Feedback {
         this.status = 1;
         this.user = user;
         this.userId = userId;
+        this.food = food;
+        this.foodId = foodId;
     }
 
-    public Feedback(Integer id, String image, String content, int rate, int type, Integer createdBy, User user, int userId) {
+    public Feedback(Integer id, String image, String content, int rate, int type, Integer createdBy, User user, int userId, Food food, int foodId) {
         this.id = id;
         this.image = image;
         this.content = content;
@@ -64,5 +73,7 @@ public class Feedback {
         this.status = 1;
         this.user = user;
         this.userId = userId;
+        this.food = food;
+        this.foodId = foodId;
     }
 }

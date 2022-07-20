@@ -26,6 +26,7 @@ public class FeedbackDTO {
     private String avatar;
     private Integer updatedBy;
     private int userId;
+    private int foodId;
     private int status;
 
     public static FeedbackDTO feedbackDTO(Feedback feedback){
@@ -40,6 +41,7 @@ public class FeedbackDTO {
         tmp.setCreatedBy(feedback.getCreatedBy());
         tmp.setUpdatedBy(feedback.getUpdatedBy());
         tmp.setUserId(feedback.getUserId());
+        tmp.setFoodId(feedback.getFoodId());
         tmp.setStatus(feedback.getStatus());
         return tmp;
     }
@@ -59,6 +61,7 @@ public class FeedbackDTO {
         tmp.setAvatar(user.getAvatar());
         tmp.setUpdatedBy(feedback.getUpdatedBy());
         tmp.setUserId(feedback.getUserId());
+        tmp.setFoodId(feedback.getFoodId());
         tmp.setStatus(feedback.getStatus());
         return tmp;
     }

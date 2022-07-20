@@ -12,6 +12,7 @@ public interface FeedbackService {
                                           Integer status,
                                           Integer createdBy,
                                           Integer userId,
+                                          Integer foodId,
                                           Integer startRate,
                                           Integer endRate,
                                           int page,
