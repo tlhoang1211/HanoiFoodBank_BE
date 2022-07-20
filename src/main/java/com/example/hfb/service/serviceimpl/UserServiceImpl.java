@@ -2,7 +2,6 @@ package com.example.hfb.service.serviceimpl;
 
 import com.example.hfb.entity.*;
 import com.example.hfb.model.ResponseData;
-import com.example.hfb.model.dto.FoodDTO;
 import com.example.hfb.model.dto.RoleDTO;
 import com.example.hfb.model.dto.UserDTO;
 import com.example.hfb.model.UserModel;
@@ -10,7 +9,6 @@ import com.example.hfb.repository.RoleRepository;
 import com.example.hfb.repository.UserRepository;
 import com.example.hfb.repository.UserRoleRepository;
 import com.example.hfb.service.UserService;
-import com.example.hfb.utilities.Utilities;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -177,6 +175,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         UserDTO userDTO = UserDTO.userDTO(userRepository.findByUsername(username));
         return userDTO;
+    }
+
+    @Override
+    public ResponseEntity<ResponseData> getUserById(Integer id) {
+        Optional<User> user =  userRepository.findById(id);
+        if (user.isPresent()) {
+            UserDTO userDTO = UserDTO.userDTO(user.get());
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseData(HttpStatus.OK.value(), "Successfully", userDTO));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Cannot find user with id " + id, ""));
+        }
     }
 
     @Override

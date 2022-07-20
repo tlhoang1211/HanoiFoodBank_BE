@@ -40,6 +40,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/users/find/{id}")
+    public ResponseEntity<ResponseData> getUserById(@PathVariable Integer id){
+        ResponseEntity<ResponseData> userDTO = userService.getUserById(id);
+        if (userDTO == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND.value())
+                    .body(new ResponseData(HttpStatus.NOT_FOUND.value(), "User is not exist",""));
+        }
+        return ResponseEntity.ok(new ResponseData(HttpStatus.OK.value(), "success",userDTO));
+    }
+
     @GetMapping("/users/{username}")
     public ResponseEntity<ResponseData> getUser(@PathVariable String username){
         UserDTO userDTO = userService.getUser(username);

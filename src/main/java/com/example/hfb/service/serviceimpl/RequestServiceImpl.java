@@ -41,21 +41,21 @@ public class RequestServiceImpl implements RequestService {
         Food food = foodRepository.findById(model.getFoodId()).orElse(null);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot user in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Can't find user in system", ""));
         } else if (food == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot food in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Can't find food in system", ""));
         }
         UserFoodKey userFoodKey = new UserFoodKey(user.getId(), food.getId());
         Optional<Request> req = requestRepository.findById(userFoodKey);
         User supplier = userRepository.findById(food.getCreatedBy()).orElse(null);
         if (user.getId() == supplier.getId()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(
-                    new ResponseData(HttpStatus.FORBIDDEN.value(), "access denied, do not self-edit", ""));
+                    new ResponseData(HttpStatus.FORBIDDEN.value(), "Access denied, do not self-edit", ""));
         }
         if (req.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED.value()).body(
-                    new ResponseData(HttpStatus.NOT_IMPLEMENTED.value(), "request already", ""));
+                    new ResponseData(HttpStatus.NOT_IMPLEMENTED.value(), "Already requested", ""));
         }
         Request request = new Request(new UserFoodKey(user.getId(), food.getId()), user, food, supplier.getId(), supplier.getName(), model.getMessage());
         requestRepository.save(request);
@@ -70,10 +70,10 @@ public class RequestServiceImpl implements RequestService {
         Food food = foodRepository.findById(foodId).orElse(null);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot user in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Can't find user in system", ""));
         } else if (food == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot food in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Can't find food in system", ""));
         }
 
         User supplier = userRepository.findById(food.getCreatedBy()).orElse(null);
@@ -86,10 +86,10 @@ public class RequestServiceImpl implements RequestService {
                 int createBy = request.get().getCreatedBy();
                 if (model.getStatus() == 2 && (model.getUpdatedBy() != food.getCreatedBy())) {
                     return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(
-                            new ResponseData(HttpStatus.FORBIDDEN.value(), "access denied, you cannot confirm", ""));
+                            new ResponseData(HttpStatus.FORBIDDEN.value(), "Access denied, you cannot confirm", ""));
                 } else if (model.getStatus() == 3 && model.getUpdatedBy() != createBy) {
                     return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(
-                            new ResponseData(HttpStatus.FORBIDDEN.value(), "access denied, you cannot done", ""));
+                            new ResponseData(HttpStatus.FORBIDDEN.value(), "Access denied, you cannot done", ""));
                 }
             }
         }
@@ -113,10 +113,10 @@ public class RequestServiceImpl implements RequestService {
         Food food = foodRepository.findById(foodId).orElse(null);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot user in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Can't find user in system", ""));
         } else if (food == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot food in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Can't find food in system", ""));
         }
         UserFoodKey userFoodKey = new UserFoodKey(userId, foodId);
         Optional<Request> request = requestRepository.findById(userFoodKey);
@@ -127,10 +127,10 @@ public class RequestServiceImpl implements RequestService {
                 int createBy = request.get().getCreatedBy();
                 if (model.getStatus() == 2 && (model.getUpdatedBy() != food.getCreatedBy())) {
                     return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(
-                            new ResponseData(HttpStatus.FORBIDDEN.value(), "access denied, you cannot confirm", ""));
+                            new ResponseData(HttpStatus.FORBIDDEN.value(), "Access denied, you cannot confirm", ""));
                 } else if (model.getStatus() == 3 && (model.getUpdatedBy() != createBy)) {
                     return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(
-                            new ResponseData(HttpStatus.FORBIDDEN.value(), "access denied, you cannot done", ""));
+                            new ResponseData(HttpStatus.FORBIDDEN.value(), "Access denied, you cannot done", ""));
                 }
             }
 
@@ -146,7 +146,7 @@ public class RequestServiceImpl implements RequestService {
         }
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot found request in database", ""));
+                new ResponseData(HttpStatus.NOT_FOUND.value(), "Cannot found request in database", ""));
     }
 
     @Override
@@ -160,10 +160,10 @@ public class RequestServiceImpl implements RequestService {
                 int createBy = r.getCreatedBy();
                 if (model.getStatus() == 2 && (model.getUpdatedBy() != r.getFood().getCreatedBy())) {
                     return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(
-                            new ResponseData(HttpStatus.FORBIDDEN.value(), "access denied, you cannot confirm", ""));
+                            new ResponseData(HttpStatus.FORBIDDEN.value(), "Access denied, you cannot confirm", ""));
                 } else if (model.getStatus() == 3 && (model.getUpdatedBy() != createBy)) {
                     return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(
-                            new ResponseData(HttpStatus.FORBIDDEN.value(), "access denied, you cannot done", ""));
+                            new ResponseData(HttpStatus.FORBIDDEN.value(), "Access denied, you cannot done", ""));
                 }
             }
 
@@ -185,10 +185,10 @@ public class RequestServiceImpl implements RequestService {
         Food food = foodRepository.findById(foodId).orElse(null);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot user in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Can't find user in system", ""));
         } else if (food == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot food in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Can't find food in system", ""));
         }
         UserFoodKey userFoodKey = new UserFoodKey(user.getId(), food.getId());
         Optional<Request> req = requestRepository.findById(userFoodKey);

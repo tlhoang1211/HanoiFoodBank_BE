@@ -2,6 +2,7 @@ package com.example.hfb.repository;
 
 
 import com.example.hfb.entity.Food;
+import com.example.hfb.entity.FoodPro;
 import com.example.hfb.entity.Request;
 import com.example.hfb.entity.UserFoodKey;
 import com.example.hfb.model.dto.RequestDetail;
@@ -36,7 +37,6 @@ public interface RequestRepository extends JpaRepository<Request, UserFoodKey> {
             @Param(value="foodId") int foodId,
             @Param(value="status") int status,
             Pageable pageable);
-
 
     @Query("SELECT new com.example.hfb.model.dto.RequestDetail(" +
             "r.id.userId," +
@@ -97,4 +97,7 @@ public interface RequestRepository extends JpaRepository<Request, UserFoodKey> {
     @Transactional
     @Query(value = "delete from request; commit;", nativeQuery = true)
     void deleteAll();
+
+//    @Query(value = "select count(*) as requests_time from request where to_timestamp(request.created_at / 1000)::date = now()::date", nativeQuery = true)
+//    List<FoodPro> getNearestLocation ();
 }

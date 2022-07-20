@@ -20,6 +20,7 @@ public interface UserService {
     RoleDTO saveRole(Role role);
     ResponseEntity<ResponseData> addRoleToUser(String username, String roleName);
     UserDTO getUser(String username);
+    ResponseEntity<ResponseData> getUserById(Integer id);
     List<UserDTO> getUsersByRole(String role);
     List<RoleDTO> getRoles(String username);
     ResponseEntity<ResponseData> getUserRole(String username, String roleName);
