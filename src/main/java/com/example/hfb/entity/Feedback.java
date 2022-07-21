@@ -37,8 +37,9 @@ public class Feedback {
     @Column(insertable = false, updatable = false)
     private int userId;
 
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "foodId", nullable = false, referencedColumnName = "id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Food food;
 
     @Column(insertable = false, updatable = false)

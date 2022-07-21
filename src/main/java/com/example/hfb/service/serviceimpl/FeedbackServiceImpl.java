@@ -58,7 +58,7 @@ public class FeedbackServiceImpl implements FeedbackService {
                 model.getFoodId()
         );
         User sent = userRepository.findById(model.getCreatedBy()).orElse(null);
-        FeedbackDTO feedbackDTO = FeedbackDTO.feedbackDTO(feedbackRepository.save(feedback), user, sent.getName());
+        FeedbackDTO feedbackDTO = FeedbackDTO.feedbackDTO(feedbackRepository.save(feedback), user, sent.getName(), sent.getAvatar());
         return ResponseEntity.ok(
                 new ResponseData(HttpStatus.OK.value(), "Insert successfully", feedbackDTO));
     }
@@ -109,7 +109,7 @@ public class FeedbackServiceImpl implements FeedbackService {
         }
         User u = userRepository.findById(feedbackUpdate.getUserId()).orElse(null);
         User sent = userRepository.findById(feedbackUpdate.getCreatedBy()).orElse(null);
-        FeedbackDTO feedbackDTO = FeedbackDTO.feedbackDTO(feedbackUpdate, u, sent.getName());
+        FeedbackDTO feedbackDTO = FeedbackDTO.feedbackDTO(feedbackUpdate, u, sent.getName(), sent.getAvatar());
         return ResponseEntity.ok(
                 new ResponseData(HttpStatus.OK.value(), "Update successfully", feedbackDTO));
     }
@@ -120,7 +120,7 @@ public class FeedbackServiceImpl implements FeedbackService {
         if (feedback.isPresent()) {
             User u = userRepository.findById(feedback.get().getUserId()).orElse(null);
             User sent = userRepository.findById(feedback.get().getCreatedBy()).orElse(null);
-            FeedbackDTO feedbackDTO = FeedbackDTO.feedbackDTO(feedback.get(), u, sent.getName());
+            FeedbackDTO feedbackDTO = FeedbackDTO.feedbackDTO(feedback.get(), u, sent.getName(), sent.getAvatar());
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseData(HttpStatus.OK.value(), "Successfully", feedbackDTO));
         } else {
@@ -146,7 +146,7 @@ public class FeedbackServiceImpl implements FeedbackService {
             public FeedbackDTO apply(Feedback feedback) {
                 User u = userRepository.findById(feedback.getUserId()).orElse(null);
                 User sent = userRepository.findById(feedback.getCreatedBy()).orElse(null);
-                FeedbackDTO dto = FeedbackDTO.feedbackDTO(feedback, u, sent.getName());
+                FeedbackDTO dto = FeedbackDTO.feedbackDTO(feedback, u, sent.getName(), sent.getAvatar());
                 return dto;
             }
         });

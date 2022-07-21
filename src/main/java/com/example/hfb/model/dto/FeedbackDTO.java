@@ -20,6 +20,7 @@ public class FeedbackDTO {
     private String createdAt;
     private String updatedAt;
     private Integer createdBy;
+    private String sentAvatar;
     private String sentName;
     private String name;
     private String username;
@@ -45,7 +46,7 @@ public class FeedbackDTO {
         tmp.setStatus(feedback.getStatus());
         return tmp;
     }
-    public static FeedbackDTO feedbackDTO(Feedback feedback, User user, String sentName){
+    public static FeedbackDTO feedbackDTO(Feedback feedback, User user, String sentName, String sentAvatar){
         FeedbackDTO tmp = new FeedbackDTO();
         tmp.setId(feedback.getId());
         tmp.setImage(feedback.getImage());
@@ -56,6 +57,7 @@ public class FeedbackDTO {
         tmp.setUpdatedAt(Utilities.convertLongToDate(feedback.getUpdatedAt()));
         tmp.setCreatedBy(feedback.getCreatedBy());
         tmp.setSentName(sentName);
+        tmp.setSentAvatar(sentAvatar);
         tmp.setName(user.getName());
         tmp.setUsername(user.getUsername());
         tmp.setAvatar(user.getAvatar());
