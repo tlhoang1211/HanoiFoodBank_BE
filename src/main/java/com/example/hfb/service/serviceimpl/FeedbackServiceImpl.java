@@ -2,10 +2,12 @@ package com.example.hfb.service.serviceimpl;
 
 import com.example.hfb.entity.*;
 import com.example.hfb.model.FeedbackModel;
+import com.example.hfb.model.FoodModel;
 import com.example.hfb.model.ResponseData;
 import com.example.hfb.model.dto.FeedbackDTO;
 import com.example.hfb.model.dto.FoodDTO;
 import com.example.hfb.model.dto.RequestDTO;
+import com.example.hfb.repository.CategoryRepository;
 import com.example.hfb.repository.FeedbackRepository;
 import com.example.hfb.repository.FoodRepository;
 import com.example.hfb.repository.UserRepository;
@@ -34,17 +36,23 @@ public class FeedbackServiceImpl implements FeedbackService {
     private UserRepository userRepository;
     @Autowired
     private FoodRepository foodRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Override
     public ResponseEntity<ResponseData> save(FeedbackModel model) {
         User user = userRepository.findById(model.getUserId()).orElse(null);
         Food food = foodRepository.findById(model.getFoodId()).orElse(null);
+        Category category = categoryRepository.findById(food.getCategoryId()).orElse(null);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     new ResponseData(HttpStatus.NOT_FOUND.value(), "Cannot find user with id " + model.getUserId(), ""));
         } else if (food == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     new ResponseData(HttpStatus.NOT_FOUND.value(), "Cannot find food with id " + model.getFoodId(), ""));
+        } else if (category == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Cannot find category with id " + model.getFoodId(), ""));
         }
         Feedback feedback = new Feedback(
                 model.getImage(),
@@ -58,7 +66,15 @@ public class FeedbackServiceImpl implements FeedbackService {
                 model.getFoodId()
         );
         User sent = userRepository.findById(model.getCreatedBy()).orElse(null);
-        FeedbackDTO feedbackDTO = FeedbackDTO.feedbackDTO(feedbackRepository.save(feedback), user, sent.getName(), sent.getAvatar());
+        FeedbackDTO feedbackDTO = FeedbackDTO.feedbackDTO(
+                feedbackRepository.save(feedback),
+                user,
+                sent.getName(),
+                sent.getAvatar(),
+                food,
+                food.getName(),
+                category.getName()
+                );
         return ResponseEntity.ok(
                 new ResponseData(HttpStatus.OK.value(), "Insert successfully", feedbackDTO));
     }
@@ -109,7 +125,15 @@ public class FeedbackServiceImpl implements FeedbackService {
         }
         User u = userRepository.findById(feedbackUpdate.getUserId()).orElse(null);
         User sent = userRepository.findById(feedbackUpdate.getCreatedBy()).orElse(null);
-        FeedbackDTO feedbackDTO = FeedbackDTO.feedbackDTO(feedbackUpdate, u, sent.getName(), sent.getAvatar());
+        Food food = foodRepository.findById(model.getFoodId()).orElse(null);
+        Category category = categoryRepository.findById(food.getCategoryId()).orElse(null);
+        FeedbackDTO feedbackDTO = FeedbackDTO.feedbackDTO(
+                feedbackUpdate, u,
+                sent.getName(),
+                sent.getAvatar(),
+                food,
+                food.getName(),
+                category.getName());
         return ResponseEntity.ok(
                 new ResponseData(HttpStatus.OK.value(), "Update successfully", feedbackDTO));
     }
@@ -120,7 +144,9 @@ public class FeedbackServiceImpl implements FeedbackService {
         if (feedback.isPresent()) {
             User u = userRepository.findById(feedback.get().getUserId()).orElse(null);
             User sent = userRepository.findById(feedback.get().getCreatedBy()).orElse(null);
-            FeedbackDTO feedbackDTO = FeedbackDTO.feedbackDTO(feedback.get(), u, sent.getName(), sent.getAvatar());
+            Food food = foodRepository.findById(feedback.get().getFoodId()).orElse(null);
+            Category category = categoryRepository.findById(food.getCategoryId()).orElse(null);
+            FeedbackDTO feedbackDTO = FeedbackDTO.feedbackDTO(feedback.get(), u, sent.getName(), sent.getAvatar(), food, food.getName(), category.getName());
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseData(HttpStatus.OK.value(), "Successfully", feedbackDTO));
         } else {
@@ -146,7 +172,9 @@ public class FeedbackServiceImpl implements FeedbackService {
             public FeedbackDTO apply(Feedback feedback) {
                 User u = userRepository.findById(feedback.getUserId()).orElse(null);
                 User sent = userRepository.findById(feedback.getCreatedBy()).orElse(null);
-                FeedbackDTO dto = FeedbackDTO.feedbackDTO(feedback, u, sent.getName(), sent.getAvatar());
+                Food food = foodRepository.findById(feedback.getFoodId()).orElse(null);
+                Category category = categoryRepository.findById(food.getCategoryId()).orElse(null);
+                FeedbackDTO dto = FeedbackDTO.feedbackDTO(feedback, u, sent.getName(), sent.getAvatar(), food, food.getName(), category.getName());
                 return dto;
             }
         });
