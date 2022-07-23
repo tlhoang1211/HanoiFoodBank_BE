@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
@@ -44,3 +45,4 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
     @Query(value = "ALTER sequence feedback_id_seq restart with 1", nativeQuery = true)
     void resetId();
 }
+

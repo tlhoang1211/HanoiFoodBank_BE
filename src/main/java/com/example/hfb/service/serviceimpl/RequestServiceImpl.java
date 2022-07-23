@@ -1,7 +1,8 @@
 package com.example.hfb.service.serviceimpl;
 
 import com.example.hfb.entity.*;
-import com.example.hfb.model.*;
+import com.example.hfb.model.RequestModel;
+import com.example.hfb.model.ResponseData;
 import com.example.hfb.model.dto.RequestDTO;
 import com.example.hfb.model.dto.RequestDetail;
 import com.example.hfb.repository.FoodRepository;
@@ -53,15 +54,34 @@ public class RequestServiceImpl implements RequestService {
             return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(
                     new ResponseData(HttpStatus.FORBIDDEN.value(), "Access denied, do not self-edit", ""));
         }
+
         if (req.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED.value()).body(
                     new ResponseData(HttpStatus.NOT_IMPLEMENTED.value(), "Already requested", ""));
         }
+        Integer requestCount = requestRepository.requestCount(user.getId());
+        if (requestCount == 3) {
+            ResponseEntity.status(HttpStatus.OK.value()).body(
+                    new ResponseData(HttpStatus.OK.value(), "Warning", "Warning! You have reach the limitation on requesting food for today."));
+        }
+
+//        if (requestCount == 0) {
+//            return ResponseEntity.status(HttpStatus.OK.value()).body(
+//                    new ResponseData(HttpStatus.OK.value(), "Success", "Attention! You can only make a request up to 3 times a day."));
+//        } else if (requestCount == 1) {
+//            return ResponseEntity.status(HttpStatus.OK.value()).body(
+//                    new ResponseData(HttpStatus.OK.value(), "Success", "You only have 2 requests for food left today. Only ask if you really need it."));
+//        } else if (requestCount == 2) {
+//            return ResponseEntity.status(HttpStatus.OK.value()).body(
+//                    new ResponseData(HttpStatus.OK.value(), "Success", "Only one more time to request for food. Have a nice day!"));
+//        }
+
         Request request = new Request(new UserFoodKey(user.getId(), food.getId()), user, food, supplier.getId(), supplier.getName(), model.getMessage());
         requestRepository.save(request);
 
         return ResponseEntity.status(HttpStatus.OK.value()).body(
-                new ResponseData(HttpStatus.OK.value(), "Success", RequestDTO.requestDTO(request)));
+                new ResponseData(HttpStatus.OK.value(), "Success", RequestDTO.requestDTO(request), requestCount));
+
     }
 
     @Override
@@ -155,7 +175,7 @@ public class RequestServiceImpl implements RequestService {
         List<Request> requests = requestRepository.findAllById(userFoodKeys);
         UserRoleKey userRoleKey = new UserRoleKey(model.getUpdatedBy(), 1);
         Optional<UserRole> userRole = userRoleRepository.findById(userRoleKey);
-        for (Request r: requests) {
+        for (Request r : requests) {
             if (!userRole.isPresent()) {
                 int createBy = r.getCreatedBy();
                 if (model.getStatus() == 2 && (model.getUpdatedBy() != r.getFood().getCreatedBy())) {
@@ -172,7 +192,7 @@ public class RequestServiceImpl implements RequestService {
         }
         List<RequestDTO> requestDTOS = new ArrayList<>();
         List<Request> requestsUpdate = requestRepository.saveAll(requests);
-        for (Request r: requestsUpdate) {
+        for (Request r : requestsUpdate) {
             requestDTOS.add(RequestDTO.requestDTO(r));
         }
         return ResponseEntity.ok(
@@ -214,24 +234,24 @@ public class RequestServiceImpl implements RequestService {
                                                 int limit,
                                                 String order) {
         Sort.Direction direction = Sort.Direction.DESC;
-        if (order.equals("asc")){
+        if (order.equals("asc")) {
             direction = Sort.Direction.ASC;
         }
         Long startCreatedL = -1L;
         if (!startCreated.equals("")) {
-            startCreatedL =  Utilities.convertStringToLong(startCreated);
+            startCreatedL = Utilities.convertStringToLong(startCreated);
         }
         Long endCreatedL = -1L;
         if (!endCreated.equals("")) {
-            endCreatedL =  Utilities.convertStringToLong(endCreated);
+            endCreatedL = Utilities.convertStringToLong(endCreated);
         }
         Long startUpdatedL = -1L;
         if (!startUpdated.equals("")) {
-            startUpdatedL =  Utilities.convertStringToLong(startUpdated);
+            startUpdatedL = Utilities.convertStringToLong(startUpdated);
         }
         Long endUpdatedL = -1L;
         if (!endUpdated.equals("")) {
-            endUpdatedL =  Utilities.convertStringToLong(endUpdated);
+            endUpdatedL = Utilities.convertStringToLong(endUpdated);
         }
         Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE, Sort.by(direction, sortBy));
         if (limit > 0) {

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
@@ -98,6 +99,9 @@ public interface RequestRepository extends JpaRepository<Request, UserFoodKey> {
     @Query(value = "delete from request; commit;", nativeQuery = true)
     void deleteAll();
 
-//    @Query(value = "select count(*) as requests_time from request where to_timestamp(request.created_at / 1000)::date = now()::date", nativeQuery = true)
-//    List<FoodPro> getNearestLocation ();
+    @Query(value = "select count(*) from request " +
+            "where request.user_id = :userID " +
+            "and to_char(to_timestamp(request.created_at / 1000), 'YYYY-MM-DD') = to_char(now(), 'YYYY-MM-DD') " +
+            "and request.status in (1, 2, 3)", nativeQuery = true)
+    Integer requestCount (@Param(value="userID") Integer userID);
 }
