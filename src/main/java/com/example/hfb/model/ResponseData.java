@@ -11,7 +11,7 @@ public class ResponseData {
     private int status;
     private String message;
     private Object data;
-    private Object requestCountADay;
+    private Object option;
 
     public ResponseData(int status, String message, Object data) {
         this.status = status;

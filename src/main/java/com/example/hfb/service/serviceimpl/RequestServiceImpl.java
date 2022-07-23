@@ -59,28 +59,18 @@ public class RequestServiceImpl implements RequestService {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED.value()).body(
                     new ResponseData(HttpStatus.NOT_IMPLEMENTED.value(), "Already requested", ""));
         }
+
         Integer requestCount = requestRepository.requestCount(user.getId());
         if (requestCount == 3) {
-            ResponseEntity.status(HttpStatus.OK.value()).body(
+            return ResponseEntity.status(HttpStatus.OK.value()).body(
                     new ResponseData(HttpStatus.OK.value(), "Warning", "Warning! You have reach the limitation on requesting food for today."));
         }
-
-//        if (requestCount == 0) {
-//            return ResponseEntity.status(HttpStatus.OK.value()).body(
-//                    new ResponseData(HttpStatus.OK.value(), "Success", "Attention! You can only make a request up to 3 times a day."));
-//        } else if (requestCount == 1) {
-//            return ResponseEntity.status(HttpStatus.OK.value()).body(
-//                    new ResponseData(HttpStatus.OK.value(), "Success", "You only have 2 requests for food left today. Only ask if you really need it."));
-//        } else if (requestCount == 2) {
-//            return ResponseEntity.status(HttpStatus.OK.value()).body(
-//                    new ResponseData(HttpStatus.OK.value(), "Success", "Only one more time to request for food. Have a nice day!"));
-//        }
 
         Request request = new Request(new UserFoodKey(user.getId(), food.getId()), user, food, supplier.getId(), supplier.getName(), model.getMessage());
         requestRepository.save(request);
 
         return ResponseEntity.status(HttpStatus.OK.value()).body(
-                new ResponseData(HttpStatus.OK.value(), "Success", RequestDTO.requestDTO(request), requestCount));
+                new ResponseData(HttpStatus.OK.value(), "Success", RequestDTO.requestDTO(request)));
 
     }
 
@@ -212,6 +202,7 @@ public class RequestServiceImpl implements RequestService {
         }
         UserFoodKey userFoodKey = new UserFoodKey(user.getId(), food.getId());
         Optional<Request> req = requestRepository.findById(userFoodKey);
+
         if (req.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK.value()).body(
                     new ResponseData(HttpStatus.OK.value(), "Success", RequestDTO.requestDTO(req.get())));
@@ -259,7 +250,9 @@ public class RequestServiceImpl implements RequestService {
         }
         Page<RequestDetail> requests = requestRepository.findAllInfo(userId, foodId, startCreatedL, endCreatedL, startUpdatedL, endUpdatedL, status, pageable);
 
+        Integer requestCount = requestRepository.requestCount(userId);
+
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseData(HttpStatus.OK.value(), "Successfully", requests));
+                new ResponseData(HttpStatus.OK.value(), "Successfully", requests, requestCount));
     }
 }
