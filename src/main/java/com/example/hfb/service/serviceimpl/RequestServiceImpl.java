@@ -196,8 +196,8 @@ public class RequestServiceImpl implements RequestService {
             return ResponseEntity.status(HttpStatus.OK.value()).body(
                     new ResponseData(HttpStatus.OK.value(), "Success", RequestDTO.requestDTO(req.get())));
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Fail", ""));
+            return ResponseEntity.status(HttpStatus.OK.value()).body(
+                    new ResponseData(HttpStatus.OK.value(), "The user's request for this item was not found on the system", ""));
         }
     }
 
