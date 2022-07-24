@@ -99,9 +99,9 @@ public interface RequestRepository extends JpaRepository<Request, UserFoodKey> {
     @Query(value = "delete from request; commit;", nativeQuery = true)
     void deleteAll();
 
-    @Query(value = "select count(*) from request " +
+    @Query(value = "select * from request " +
             "where request.user_id = :userID " +
             "and to_char(to_timestamp(request.created_at / 1000), 'YYYY-MM-DD') = to_char(now(), 'YYYY-MM-DD') " +
             "and request.status in (1, 2, 3)", nativeQuery = true)
-    Integer requestCount (@Param(value="userID") Integer userID);
+    List<Object[]> requestCount (@Param(value="userID") Integer userID);
 }
