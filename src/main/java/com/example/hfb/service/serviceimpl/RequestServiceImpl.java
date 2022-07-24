@@ -60,8 +60,7 @@ public class RequestServiceImpl implements RequestService {
                     new ResponseData(HttpStatus.NOT_IMPLEMENTED.value(), "Already requested", ""));
         }
 
-        List<Object[]> listRqADAy = requestRepository.requestCount(user.getId());
-        int requestCount = listRqADAy.size();
+        Integer requestCount = requestRepository.requestCount(user.getId());
         if (requestCount == 3) {
             return ResponseEntity.status(HttpStatus.OK.value()).body(
                     new ResponseData(HttpStatus.OK.value(), "Warning", "Warning! You have reach the limitation on requesting food for today."));
@@ -251,9 +250,9 @@ public class RequestServiceImpl implements RequestService {
         }
         Page<RequestDetail> requests = requestRepository.findAllInfo(userId, foodId, startCreatedL, endCreatedL, startUpdatedL, endUpdatedL, status, pageable);
 
-        List<Object[]> listRqADAy = requestRepository.requestCount(userId);
+        Integer requestCount = requestRepository.requestCount(userId);
 
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseData(HttpStatus.OK.value(), "Successfully", requests, listRqADAy));
+                new ResponseData(HttpStatus.OK.value(), "Successfully", requests, requestCount));
     }
 }
