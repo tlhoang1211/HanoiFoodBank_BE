@@ -35,4 +35,9 @@ public interface FoodService {
                                                     String sortBy,
                                                     int limit,
                                                     String order);
+    ResponseEntity<ResponseData> getRequestedFood(int userID,
+                                                  int page,
+                                                  String sortBy,
+                                                  int limit,
+                                                  String order);
 }

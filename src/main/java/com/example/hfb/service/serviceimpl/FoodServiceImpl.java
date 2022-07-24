@@ -112,28 +112,28 @@ public class FoodServiceImpl implements FoodService {
     public ResponseEntity<ResponseData> update(FoodModel model, int id) {
         List<String> errors = new ArrayList<>();
         if (model.getName() == null) {
-            errors.add("Name is not empty");
+            errors.add("Name is required");
         }
         if (model.getAvatar() == null) {
-            errors.add("Avatar is not empty");
+            errors.add("Avatar is required");
         }
         if (model.getImages() == null) {
-            errors.add("Images is not empty");
+            errors.add("Images are required");
         }
         if (model.getDescription() == null) {
-            errors.add("Description is not empty");
+            errors.add("Description is required");
         }
         if (model.getContent() == null) {
-            errors.add("Content is not empty");
+            errors.add("Content is required");
         }
         if (model.getExpirationDate() == null) {
-            errors.add("ExpirationDate is not empty");
+            errors.add("ExpirationDate is required");
         }
         if (model.getUpdatedBy() == null) {
-            errors.add("UpdatedBy is not empty");
+            errors.add("UpdatedBy is required");
         }
         if (model.getCategoryId() == null) {
-            errors.add("CategoryId is not empty or not exist");
+            errors.add("CategoryId is required");
         }
         if (errors.size() > 0) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
@@ -149,7 +149,7 @@ public class FoodServiceImpl implements FoodService {
         Optional<UserRole> userRole = userRoleRepository.findById(userRoleKey);
         if (!userRole.isPresent()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(
-                    new ResponseData(HttpStatus.FORBIDDEN.value(), "Access denied, you cannot active or delete", ""));
+                    new ResponseData(HttpStatus.FORBIDDEN.value(), "Access denied, you cannot active or delete.", ""));
         }
         Food foodUpdate = f.map(food -> {
             food.setName(model.getName());
@@ -180,7 +180,7 @@ public class FoodServiceImpl implements FoodService {
 
         FoodDTO foodDTO = FoodDTO.foodDTO(foodUpdate);
         return ResponseEntity.ok(
-                new ResponseData(HttpStatus.OK.value(), "Update successfully", foodDTO));
+                new ResponseData(HttpStatus.OK.value(), "Update successfully!", foodDTO));
     }
 
     @Override
@@ -190,13 +190,13 @@ public class FoodServiceImpl implements FoodService {
         Optional<UserRole> userRole = userRoleRepository.findById(userRoleKey);
         if (!userRole.isPresent()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(
-                    new ResponseData(HttpStatus.FORBIDDEN.value(), "Access denied, you cannot active or delete", ""));
+                    new ResponseData(HttpStatus.FORBIDDEN.value(), "Access denied, you cannot active or delete.", ""));
         }
         if (food.isPresent()) {
             food.get().setStatus(status);
             food.get().setUpdatedBy(updateBy);
             return ResponseEntity.ok(
-                    new ResponseData(HttpStatus.OK.value(), "Update successfully", FoodDTO.foodDTO(foodRepository.save(food.get()))));
+                    new ResponseData(HttpStatus.OK.value(), "Update successfully!", FoodDTO.foodDTO(foodRepository.save(food.get()))));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 new ResponseData(HttpStatus.NOT_FOUND.value(), "Cannot find food with id " + id, ""));
@@ -339,5 +339,34 @@ public class FoodServiceImpl implements FoodService {
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseData(HttpStatus.OK.value(), "Successful", data));
+    }
+
+    @Override
+    public ResponseEntity<ResponseData> getRequestedFood(int userID,
+                                                         int page,
+                                                         String sortBy,
+                                                         int limit,
+                                                         String order) {
+        Sort.Direction direction = Sort.Direction.DESC;
+        if (order.equals("asc")) {
+            direction = Sort.Direction.ASC;
+        }
+
+        Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE, Sort.by(direction, sortBy));
+        if (limit > 0) {
+            pageable = PageRequest.of(page, limit, Sort.by(direction, sortBy));
+        }
+
+//        User user = userRepository.findById(userID).orElse(null);
+//        if (user == null) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+//                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Cannot find user with id " + userID, ""));
+//        }
+
+        List<FoodPro> requestedFood = foodRepository.getRequestedFood(userID, pageable);
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseData(HttpStatus.OK.value(), "Successful", requestedFood)
+        );
     }
 }
