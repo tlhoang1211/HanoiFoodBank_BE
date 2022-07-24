@@ -203,9 +203,11 @@ public class RequestServiceImpl implements RequestService {
         UserFoodKey userFoodKey = new UserFoodKey(user.getId(), food.getId());
         Optional<Request> req = requestRepository.findById(userFoodKey);
 
+        Integer requestCount = requestRepository.requestCount(userId);
+
         if (req.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK.value()).body(
-                    new ResponseData(HttpStatus.OK.value(), "Success", RequestDTO.requestDTO(req.get())));
+                    new ResponseData(HttpStatus.OK.value(), "Success", RequestDTO.requestDTO(req.get()), requestCount));
         } else {
             return ResponseEntity.status(HttpStatus.OK.value()).body(
                     new ResponseData(HttpStatus.OK.value(), "The user's request for this item was not found on the system", ""));
