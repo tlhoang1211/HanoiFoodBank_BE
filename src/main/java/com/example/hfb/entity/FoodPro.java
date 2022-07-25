@@ -15,4 +15,8 @@ public interface FoodPro {
     long getExpiration_date();
     long getUpdated_by();
     long getStatus();
+    Long getRequestCount();
 }
+
+
+

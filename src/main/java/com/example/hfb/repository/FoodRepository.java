@@ -95,9 +95,10 @@ public interface FoodRepository extends JpaRepository<Food, Integer> {
                                       @Param(value="distance") double distance,
                                       Pageable pageable);
 
-    @Query(value="select * from food " +
-            "where status = 2 " +
-            "and created_by = :userID " +
-            "and id in (select distinct food_id from request)", nativeQuery = true)
+    @Query(value="select r.requestCount, f.* from food f\n" +
+            "    join (select food_id, count(food_id) as requestCount from request\n" +
+            "                                                  where supplier_id = :userID group by food_id) r\n" +
+            "        on f.id = r.food_id\n" +
+            "    where f.status = 2 and f.created_by = :userID", nativeQuery = true)
     List<FoodPro> getRequestedFood(@Param(value="userID") int userID, Pageable pageable);
 }

@@ -103,5 +103,5 @@ public interface RequestRepository extends JpaRepository<Request, UserFoodKey> {
             "where request.user_id = :userID " +
             "and to_char(to_timestamp(request.created_at / 1000), 'YYYY-MM-DD') = to_char(now(), 'YYYY-MM-DD') " +
             "and request.status in (1, 2, 3)", nativeQuery = true)
-    Integer requestCount (@Param(value="userID") Integer userID);
+    Integer requestTimesADay (@Param(value="userID") Integer userID);
 }

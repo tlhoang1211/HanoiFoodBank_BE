@@ -31,6 +31,7 @@ public class FoodDTO {
     private String category;
     private String supplierName;
     private String supplierEmail;
+    private int requestCount;
 
     public static FoodDTO foodDTO(Food food){
         FoodDTO tmp = new FoodDTO();
