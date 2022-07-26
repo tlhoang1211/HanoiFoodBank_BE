@@ -236,8 +236,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Iterable<UserDTO> search(String keyword, Pageable pageable) {
-        Page<User> users = userRepository.search(keyword, pageable);
+    public Iterable<UserDTO> search(String keyword, int status, Pageable pageable) {
+        Page<User> users = userRepository.search(keyword, status, pageable);
         Page<UserDTO> dtoPage = users.map(new Function<User, UserDTO>() {
             @Override
             public UserDTO apply(User user) {

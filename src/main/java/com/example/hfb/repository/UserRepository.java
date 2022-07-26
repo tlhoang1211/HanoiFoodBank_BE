@@ -15,8 +15,10 @@ import javax.transaction.Transactional;
 public interface UserRepository extends JpaRepository<User, Integer> {
     User findByUsername(String username);
 
-    @Query("select s from User as s where (s.username like %:keyword% OR s.username is null)")
-    Page<User> search(@Param(value="keyword") String keyword, Pageable pageable);
+    @Query("select s from User as s " +
+            "where (s.username like %:keyword% OR s.username is null)" +
+            "AND (s.status = :status OR :status = -1)")
+    Page<User> search(@Param(value="keyword") String keyword, @Param(value="status") int status, Pageable pageable);
 
     @Modifying
     @Transactional

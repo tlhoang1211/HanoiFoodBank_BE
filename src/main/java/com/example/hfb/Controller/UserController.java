@@ -72,6 +72,7 @@ public class UserController {
     @GetMapping("/users/search")
     public ResponseEntity<ResponseData> search (
             @RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
+            @RequestParam(name = "status", required = false, defaultValue = "") int status,
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
             @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
             @RequestParam(name = "limit", required = false, defaultValue = "10") int limit,
@@ -83,7 +84,7 @@ public class UserController {
         }
         Pageable pageable = PageRequest.of(page, limit, Sort.by(direction, sortBy));
         return ResponseEntity.ok(new ResponseData(HttpStatus.OK.value(),
-        "success", userService.search(keyword, pageable)));
+        "success", userService.search(keyword, status, pageable)));
     }
 
     @GetMapping("/users/roles")

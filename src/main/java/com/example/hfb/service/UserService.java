@@ -24,5 +24,5 @@ public interface UserService {
     List<UserDTO> getUsersByRole(String role);
     List<RoleDTO> getRoles(String username);
     ResponseEntity<ResponseData> getUserRole(String username, String roleName);
-    Iterable<UserDTO> search(@Param(value="keyword") String keyword, Pageable pageable);
+    Iterable<UserDTO> search(@Param(value="keyword") String keyword, @Param(value="status") int status, Pageable pageable);
 }
