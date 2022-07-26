@@ -72,7 +72,7 @@ public class UserController {
     @GetMapping("/users/search")
     public ResponseEntity<ResponseData> search (
             @RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
-            @RequestParam(name = "status", required = false, defaultValue = "") int status,
+            @RequestParam(name = "status", required = false, defaultValue = "-1") int status,
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
             @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
             @RequestParam(name = "limit", required = false, defaultValue = "10") int limit,
