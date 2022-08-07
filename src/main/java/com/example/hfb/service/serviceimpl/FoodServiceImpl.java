@@ -357,13 +357,8 @@ public class FoodServiceImpl implements FoodService {
             pageable = PageRequest.of(page, limit, Sort.by(direction, sortBy));
         }
 
-//        User user = userRepository.findById(userID).orElse(null);
-//        if (user == null) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-//                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Cannot find user with id " + userID, ""));
-//        }
-
         List<FoodPro> requestedFood = foodRepository.getRequestedFood(userID, pageable);
+
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseData(HttpStatus.OK.value(), "Successful", requestedFood)
         );
