@@ -364,7 +364,6 @@ public class FoodServiceImpl implements FoodService {
 //        }
 
         List<FoodPro> requestedFood = foodRepository.getRequestedFood(userID, pageable);
-
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseData(HttpStatus.OK.value(), "Successful", requestedFood)
         );
