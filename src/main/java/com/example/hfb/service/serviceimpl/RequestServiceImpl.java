@@ -1,7 +1,8 @@
 package com.example.hfb.service.serviceimpl;
 
 import com.example.hfb.entity.*;
-import com.example.hfb.model.*;
+import com.example.hfb.model.RequestModel;
+import com.example.hfb.model.ResponseData;
 import com.example.hfb.model.dto.RequestDTO;
 import com.example.hfb.model.dto.RequestDetail;
 import com.example.hfb.repository.FoodRepository;
@@ -41,27 +42,36 @@ public class RequestServiceImpl implements RequestService {
         Food food = foodRepository.findById(model.getFoodId()).orElse(null);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot user in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Can't find user in system", ""));
         } else if (food == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot food in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Can't find food in system", ""));
         }
         UserFoodKey userFoodKey = new UserFoodKey(user.getId(), food.getId());
         Optional<Request> req = requestRepository.findById(userFoodKey);
         User supplier = userRepository.findById(food.getCreatedBy()).orElse(null);
         if (user.getId() == supplier.getId()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(
-                    new ResponseData(HttpStatus.FORBIDDEN.value(), "access denied, do not self-edit", ""));
+                    new ResponseData(HttpStatus.FORBIDDEN.value(), "Access denied, do not self-edit", ""));
         }
+
         if (req.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED.value()).body(
-                    new ResponseData(HttpStatus.NOT_IMPLEMENTED.value(), "request already", ""));
+                    new ResponseData(HttpStatus.NOT_IMPLEMENTED.value(), "Already requested", ""));
         }
+
+        Integer requestCount = requestRepository.requestTimesADay(user.getId());
+        if (requestCount == 3) {
+            return ResponseEntity.status(HttpStatus.OK.value()).body(
+                    new ResponseData(HttpStatus.OK.value(), "Warning", "Warning! You have reach the limitation on requesting food for today."));
+        }
+
         Request request = new Request(new UserFoodKey(user.getId(), food.getId()), user, food, supplier.getId(), supplier.getName(), model.getMessage());
         requestRepository.save(request);
 
         return ResponseEntity.status(HttpStatus.OK.value()).body(
                 new ResponseData(HttpStatus.OK.value(), "Success", RequestDTO.requestDTO(request)));
+
     }
 
     @Override
@@ -70,10 +80,10 @@ public class RequestServiceImpl implements RequestService {
         Food food = foodRepository.findById(foodId).orElse(null);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot user in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Can't find user in system", ""));
         } else if (food == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot food in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Can't find food in system", ""));
         }
 
         User supplier = userRepository.findById(food.getCreatedBy()).orElse(null);
@@ -86,10 +96,10 @@ public class RequestServiceImpl implements RequestService {
                 int createBy = request.get().getCreatedBy();
                 if (model.getStatus() == 2 && (model.getUpdatedBy() != food.getCreatedBy())) {
                     return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(
-                            new ResponseData(HttpStatus.FORBIDDEN.value(), "access denied, you cannot confirm", ""));
+                            new ResponseData(HttpStatus.FORBIDDEN.value(), "Access denied, you cannot confirm", ""));
                 } else if (model.getStatus() == 3 && model.getUpdatedBy() != createBy) {
                     return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(
-                            new ResponseData(HttpStatus.FORBIDDEN.value(), "access denied, you cannot done", ""));
+                            new ResponseData(HttpStatus.FORBIDDEN.value(), "Access denied, you cannot done", ""));
                 }
             }
         }
@@ -113,10 +123,10 @@ public class RequestServiceImpl implements RequestService {
         Food food = foodRepository.findById(foodId).orElse(null);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot user in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Can't find user in system", ""));
         } else if (food == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot food in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Can't find food in system", ""));
         }
         UserFoodKey userFoodKey = new UserFoodKey(userId, foodId);
         Optional<Request> request = requestRepository.findById(userFoodKey);
@@ -127,10 +137,10 @@ public class RequestServiceImpl implements RequestService {
                 int createBy = request.get().getCreatedBy();
                 if (model.getStatus() == 2 && (model.getUpdatedBy() != food.getCreatedBy())) {
                     return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(
-                            new ResponseData(HttpStatus.FORBIDDEN.value(), "access denied, you cannot confirm", ""));
+                            new ResponseData(HttpStatus.FORBIDDEN.value(), "Access denied, you cannot confirm", ""));
                 } else if (model.getStatus() == 3 && (model.getUpdatedBy() != createBy)) {
                     return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(
-                            new ResponseData(HttpStatus.FORBIDDEN.value(), "access denied, you cannot done", ""));
+                            new ResponseData(HttpStatus.FORBIDDEN.value(), "Access denied, you cannot done", ""));
                 }
             }
 
@@ -146,7 +156,7 @@ public class RequestServiceImpl implements RequestService {
         }
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot found request in database", ""));
+                new ResponseData(HttpStatus.NOT_FOUND.value(), "Cannot found request in database", ""));
     }
 
     @Override
@@ -155,15 +165,15 @@ public class RequestServiceImpl implements RequestService {
         List<Request> requests = requestRepository.findAllById(userFoodKeys);
         UserRoleKey userRoleKey = new UserRoleKey(model.getUpdatedBy(), 1);
         Optional<UserRole> userRole = userRoleRepository.findById(userRoleKey);
-        for (Request r: requests) {
+        for (Request r : requests) {
             if (!userRole.isPresent()) {
                 int createBy = r.getCreatedBy();
                 if (model.getStatus() == 2 && (model.getUpdatedBy() != r.getFood().getCreatedBy())) {
                     return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(
-                            new ResponseData(HttpStatus.FORBIDDEN.value(), "access denied, you cannot confirm", ""));
+                            new ResponseData(HttpStatus.FORBIDDEN.value(), "Access denied, you cannot confirm", ""));
                 } else if (model.getStatus() == 3 && (model.getUpdatedBy() != createBy)) {
                     return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(
-                            new ResponseData(HttpStatus.FORBIDDEN.value(), "access denied, you cannot done", ""));
+                            new ResponseData(HttpStatus.FORBIDDEN.value(), "Access denied, you cannot done", ""));
                 }
             }
 
@@ -172,7 +182,7 @@ public class RequestServiceImpl implements RequestService {
         }
         List<RequestDTO> requestDTOS = new ArrayList<>();
         List<Request> requestsUpdate = requestRepository.saveAll(requests);
-        for (Request r: requestsUpdate) {
+        for (Request r : requestsUpdate) {
             requestDTOS.add(RequestDTO.requestDTO(r));
         }
         return ResponseEntity.ok(
@@ -185,19 +195,22 @@ public class RequestServiceImpl implements RequestService {
         Food food = foodRepository.findById(foodId).orElse(null);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot user in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Can't find user in system", ""));
         } else if (food == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot food in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Can't find food in system", ""));
         }
         UserFoodKey userFoodKey = new UserFoodKey(user.getId(), food.getId());
         Optional<Request> req = requestRepository.findById(userFoodKey);
+
+        Integer requestCount = requestRepository.requestTimesADay(userId);
+
         if (req.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK.value()).body(
-                    new ResponseData(HttpStatus.OK.value(), "Success", RequestDTO.requestDTO(req.get())));
+                    new ResponseData(HttpStatus.OK.value(), "Success", RequestDTO.requestDTO(req.get()), requestCount));
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Fail", ""));
+            return ResponseEntity.status(HttpStatus.OK.value()).body(
+                    new ResponseData(HttpStatus.OK.value(), "The user's request for this item was not found on the system", ""));
         }
     }
 
@@ -214,24 +227,24 @@ public class RequestServiceImpl implements RequestService {
                                                 int limit,
                                                 String order) {
         Sort.Direction direction = Sort.Direction.DESC;
-        if (order.equals("asc")){
+        if (order.equals("asc")) {
             direction = Sort.Direction.ASC;
         }
         Long startCreatedL = -1L;
         if (!startCreated.equals("")) {
-            startCreatedL =  Utilities.convertStringToLong(startCreated);
+            startCreatedL = Utilities.convertStringToLong(startCreated);
         }
         Long endCreatedL = -1L;
         if (!endCreated.equals("")) {
-            endCreatedL =  Utilities.convertStringToLong(endCreated);
+            endCreatedL = Utilities.convertStringToLong(endCreated);
         }
         Long startUpdatedL = -1L;
         if (!startUpdated.equals("")) {
-            startUpdatedL =  Utilities.convertStringToLong(startUpdated);
+            startUpdatedL = Utilities.convertStringToLong(startUpdated);
         }
         Long endUpdatedL = -1L;
         if (!endUpdated.equals("")) {
-            endUpdatedL =  Utilities.convertStringToLong(endUpdated);
+            endUpdatedL = Utilities.convertStringToLong(endUpdated);
         }
         Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE, Sort.by(direction, sortBy));
         if (limit > 0) {
@@ -239,7 +252,9 @@ public class RequestServiceImpl implements RequestService {
         }
         Page<RequestDetail> requests = requestRepository.findAllInfo(userId, foodId, startCreatedL, endCreatedL, startUpdatedL, endUpdatedL, status, pageable);
 
+        Integer requestTimesADay = requestRepository.requestTimesADay(userId);
+
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseData(HttpStatus.OK.value(), "Successfully", requests));
+                new ResponseData(HttpStatus.OK.value(), "Successfully", requests, requestTimesADay));
     }
 }

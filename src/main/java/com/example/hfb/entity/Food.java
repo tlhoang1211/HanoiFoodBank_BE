@@ -33,6 +33,10 @@ public class Food {
 
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL , fetch = FetchType.EAGER)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    Set<Feedback> feedbacks = new HashSet<>();
+
+    @OneToMany(mappedBy = "food", cascade = CascadeType.ALL , fetch = FetchType.EAGER)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     Set<Request> requests = new HashSet<>();
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})

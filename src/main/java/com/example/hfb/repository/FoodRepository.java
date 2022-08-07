@@ -1,9 +1,7 @@
 package com.example.hfb.repository;
 
-import com.example.hfb.entity.Category;
 import com.example.hfb.entity.Food;
-import com.example.hfb.model.dto.StatisticDonation;
-import com.example.hfb.model.dto.StatisticFood;
+import com.example.hfb.entity.FoodPro;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -68,11 +66,39 @@ public interface FoodRepository extends JpaRepository<Food, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "delete from food", nativeQuery = true)
+    @Query(value = "delete from food; commit;", nativeQuery = true)
     void deleteAll();
 
     @Modifying
     @Transactional
-    @Query(value = "ALTER TABLE food AUTO_INCREMENT = 1;", nativeQuery = true)
+    @Query(value = "ALTER sequence food_id_seq restart with 1", nativeQuery = true)
     void resetId();
+
+    @Query(value = "with a as (select id,\n" +
+            "                  (\n" +
+            "                          6371 *\n" +
+            "                          acos(cos(radians(:lat)) *\n" +
+            "                               cos(radians(position_latitude)) *\n" +
+            "                               cos(radians(position_longitude) -\n" +
+            "                                   radians(:lng)) +\n" +
+            "                               sin(radians(:lat)) *\n" +
+            "                               sin(radians(position_latitude)))\n" +
+            "                      ) as distance\n" +
+            "           from account),\n" +
+            "     b as (select *\n" +
+            "           from a\n" +
+            "           where distance < :distance\n" +
+            "           order by distance)\n" +
+            "select * from food where created_by in (select id from b) and status = 2\n", nativeQuery = true)
+    List<FoodPro> getNearestLocation (@Param(value="lng") double lng,
+                                      @Param(value="lat") double lat,
+                                      @Param(value="distance") double distance,
+                                      Pageable pageable);
+
+    @Query(value="select r.requestCount, f.* from food f\n" +
+            "    join (select food_id, count(food_id) as requestCount from request\n" +
+            "                                                  where supplier_id = :userID group by food_id) r\n" +
+            "        on f.id = r.food_id\n" +
+            "    where f.status = 2 and f.created_by = :userID", nativeQuery = true)
+    List<FoodPro> getRequestedFood(@Param(value="userID") int userID, Pageable pageable);
 }

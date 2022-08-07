@@ -58,6 +58,7 @@ public class RequestController {
     public ResponseEntity<ResponseData> update (@RequestBody RequestModel model, @PathVariable Integer userId, @PathVariable Integer foodId){
         return service.update(model, userId, foodId);
     }
+
     @PostMapping("/status/{userId}/{foodId}")
     public ResponseEntity<ResponseData> updateStatus (@RequestBody RequestModel model, @PathVariable Integer userId, @PathVariable Integer foodId){
         return service.updateStatus(model, userId, foodId);

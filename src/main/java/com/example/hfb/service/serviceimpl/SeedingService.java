@@ -38,18 +38,19 @@ public class SeedingService {
         return UserDTO.userDTO(userRepository.save(user));
     }
 
-
     public void deleteCategories() {
         categoryRepository.deleteAll();
     }
+
     public Category findByCategoryId(Integer id) {
         return categoryRepository.findById(id).orElse(null);
     }
     public void saveFood(Food food) {
         foodRepository.save(food);
     }
-    public void saveFeedback(Integer id, String image, String content, int rate, int type, Integer toUserId, Integer createdBy) {
+    public void saveFeedback(Integer id, String image, String content, int rate, int type, Integer toUserId, Integer foodId, Integer createdBy) {
         User user = userRepository.findById(toUserId).orElse(null);
+        Food food = foodRepository.findById(foodId).orElse(null);
         Feedback feedback = new Feedback(
                 id,
                 image,
@@ -58,12 +59,26 @@ public class SeedingService {
                 type,
                 createdBy,
                 user,
-                toUserId
+                toUserId,
+                food,
+                foodId
         );
         feedbackRepository.save(feedback);
     }
+    public void deleteFeedbacks() {
+        feedbackRepository.deleteAll();
+    }
+    public void resetIdFeedback() {
+        feedbackRepository.resetId();
+    }
     public void saveDonation(Donation donation) {
         donationRepository.save(donation);
+    }
+    public void deleteDonations() {
+        donationRepository.deleteAll();
+    }
+    public void resetIdDonation() {
+        donationRepository.resetId();
     }
     public void saveRequest(Integer userId, Integer foodId, String message, String createdAt, String updatedAt) {
         User user = userRepository.findById(userId).orElse(null);
@@ -85,6 +100,7 @@ public class SeedingService {
         );
         requestRepository.save(request);
     }
+
     public void findByIdUser(Integer id) {
         userRepository.findById(id);
     }
@@ -93,6 +109,9 @@ public class SeedingService {
     }
     public void deleteFoods() {
         foodRepository.deleteAll();
+    }
+    public void deleteRequests() {
+        requestRepository.deleteAll();
     }
     public void resetIdFood() {
         foodRepository.resetId();
@@ -105,9 +124,6 @@ public class SeedingService {
     }
     public void deleteUserRoles() {
         userRoleRepository.deleteAll();
-    }
-    public void resetIdUserRole() {
-        userRoleRepository.resetId();
     }
     public void deleteUsers() {
         userRepository.deleteAll();
@@ -129,10 +145,10 @@ public class SeedingService {
         Role role = roleRepository.findByName(roleName);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot user in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Couldn't found this user in database", ""));
         } else if (role == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot role in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Couldn't found this role in database", ""));
         }
         userRoleRepository.save(new UserRole(new UserRoleKey(user.getId(), role.getId()), user, role));
         return ResponseEntity.status(HttpStatus.OK.value()).body(

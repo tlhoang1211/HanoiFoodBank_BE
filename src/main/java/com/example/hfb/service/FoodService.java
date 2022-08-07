@@ -2,6 +2,7 @@ package com.example.hfb.service;
 
 import com.example.hfb.model.ResponseData;
 import com.example.hfb.model.FoodModel;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -27,4 +28,16 @@ public interface FoodService {
                                           String sortBy,
                                           int limit,
                                           String order);
+    ResponseEntity<ResponseData> getNearestLocation(double positionLongitude,
+                                                    double positionLatitude,
+                                                    double distance,
+                                                    int page,
+                                                    String sortBy,
+                                                    int limit,
+                                                    String order);
+    ResponseEntity<ResponseData> getRequestedFood(int userID,
+                                                  int page,
+                                                  String sortBy,
+                                                  int limit,
+                                                  String order);
 }

@@ -2,6 +2,7 @@ package com.example.hfb.repository;
 
 
 import com.example.hfb.entity.Food;
+import com.example.hfb.entity.FoodPro;
 import com.example.hfb.entity.Request;
 import com.example.hfb.entity.UserFoodKey;
 import com.example.hfb.model.dto.RequestDetail;
@@ -10,12 +11,15 @@ import com.example.hfb.model.dto.StatisticRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
@@ -34,7 +38,6 @@ public interface RequestRepository extends JpaRepository<Request, UserFoodKey> {
             @Param(value="foodId") int foodId,
             @Param(value="status") int status,
             Pageable pageable);
-
 
     @Query("SELECT new com.example.hfb.model.dto.RequestDetail(" +
             "r.id.userId," +
@@ -91,4 +94,14 @@ public interface RequestRepository extends JpaRepository<Request, UserFoodKey> {
         , nativeQuery = true)
     List<Object[]> statisticRequest (@Param(value="startDate") Long startDate, @Param(value="endDate") Long endDate);
 
+    @Modifying
+    @Transactional
+    @Query(value = "delete from request; commit;", nativeQuery = true)
+    void deleteAll();
+
+    @Query(value = "select count(*) from request " +
+            "where request.user_id = :userID " +
+            "and to_char(to_timestamp(request.created_at / 1000), 'YYYY-MM-DD') = to_char(now(), 'YYYY-MM-DD') " +
+            "and request.status in (1, 2, 3)", nativeQuery = true)
+    Integer requestTimesADay (@Param(value="userID") Integer userID);
 }

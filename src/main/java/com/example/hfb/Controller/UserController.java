@@ -40,6 +40,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/users/find/{id}")
+    public ResponseEntity<ResponseData> getUserById(@PathVariable Integer id){
+        ResponseEntity<ResponseData> userDTO = userService.getUserById(id);
+        if (userDTO == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND.value())
+                    .body(new ResponseData(HttpStatus.NOT_FOUND.value(), "User is not exist",""));
+        }
+        return ResponseEntity.ok(new ResponseData(HttpStatus.OK.value(), "success",userDTO));
+    }
+
     @GetMapping("/users/{username}")
     public ResponseEntity<ResponseData> getUser(@PathVariable String username){
         UserDTO userDTO = userService.getUser(username);
@@ -47,7 +57,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value())
                     .body(new ResponseData(HttpStatus.NOT_FOUND.value(), "User is not exist",""));
         }
-        return ResponseEntity.ok(new ResponseData(HttpStatus.OK.value(), "succsess",userDTO));
+        return ResponseEntity.ok(new ResponseData(HttpStatus.OK.value(), "success",userDTO));
     }
 
     @GetMapping("/users")
@@ -56,12 +66,13 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value())
                     .body(new ResponseData(HttpStatus.NOT_FOUND.value(), "Role is not exist",""));
         }
-        return ResponseEntity.ok(new ResponseData(HttpStatus.OK.value(), "succsess",userService.getUsersByRole(role)));
+        return ResponseEntity.ok(new ResponseData(HttpStatus.OK.value(), "success",userService.getUsersByRole(role)));
     }
 
     @GetMapping("/users/search")
     public ResponseEntity<ResponseData> search (
             @RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
+            @RequestParam(name = "status", required = false, defaultValue = "-1") int status,
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
             @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
             @RequestParam(name = "limit", required = false, defaultValue = "10") int limit,
@@ -73,7 +84,7 @@ public class UserController {
         }
         Pageable pageable = PageRequest.of(page, limit, Sort.by(direction, sortBy));
         return ResponseEntity.ok(new ResponseData(HttpStatus.OK.value(),
-        "success", userService.search(keyword, pageable)));
+        "success", userService.search(keyword, status, pageable)));
     }
 
     @GetMapping("/users/roles")

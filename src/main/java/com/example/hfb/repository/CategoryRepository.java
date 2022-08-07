@@ -25,11 +25,11 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "delete from category", nativeQuery = true)
+    @Query(value = "delete from category; commit;", nativeQuery = true)
     void deleteAll();
 
     @Modifying
     @Transactional
-    @Query(value = "ALTER TABLE category AUTO_INCREMENT = 1;", nativeQuery = true)
+    @Query(value = "ALTER sequence category_id_seq restart with 1", nativeQuery = true)
     void resetId();
 }

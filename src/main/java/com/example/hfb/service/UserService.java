@@ -20,8 +20,9 @@ public interface UserService {
     RoleDTO saveRole(Role role);
     ResponseEntity<ResponseData> addRoleToUser(String username, String roleName);
     UserDTO getUser(String username);
+    ResponseEntity<ResponseData> getUserById(Integer id);
     List<UserDTO> getUsersByRole(String role);
     List<RoleDTO> getRoles(String username);
     ResponseEntity<ResponseData> getUserRole(String username, String roleName);
-    Iterable<UserDTO> search(@Param(value="keyword") String keyword, Pageable pageable);
+    Iterable<UserDTO> search(@Param(value="keyword") String keyword, @Param(value="status") int status, Pageable pageable);
 }

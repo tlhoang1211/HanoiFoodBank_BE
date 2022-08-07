@@ -2,10 +2,10 @@ package com.example.hfb.service.serviceimpl;
 
 import com.example.hfb.entity.*;
 import com.example.hfb.model.DataMailModel;
+import com.example.hfb.model.FoodModel;
 import com.example.hfb.model.ResponseData;
 import com.example.hfb.model.dto.ClientSdi;
 import com.example.hfb.model.dto.FoodDTO;
-import com.example.hfb.model.FoodModel;
 import com.example.hfb.repository.*;
 import com.example.hfb.service.ClientService;
 import com.example.hfb.service.FoodService;
@@ -50,7 +50,7 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public ResponseEntity<ResponseData> scanExpirationDate() {
-        try{
+        try {
             List<Food> foods = foodRepository.findAll();
             for (Food item : foods) {
                 Long currentTime = Calendar.getInstance().getTimeInMillis();
@@ -112,28 +112,28 @@ public class FoodServiceImpl implements FoodService {
     public ResponseEntity<ResponseData> update(FoodModel model, int id) {
         List<String> errors = new ArrayList<>();
         if (model.getName() == null) {
-            errors.add("Name is not empty");
+            errors.add("Name is required");
         }
         if (model.getAvatar() == null) {
-            errors.add("Avatar is not empty");
+            errors.add("Avatar is required");
         }
         if (model.getImages() == null) {
-            errors.add("Images is not empty");
+            errors.add("Images are required");
         }
         if (model.getDescription() == null) {
-            errors.add("Description is not empty");
+            errors.add("Description is required");
         }
         if (model.getContent() == null) {
-            errors.add("Content is not empty");
+            errors.add("Content is required");
         }
         if (model.getExpirationDate() == null) {
-            errors.add("ExpirationDate is not empty");
+            errors.add("ExpirationDate is required");
         }
         if (model.getUpdatedBy() == null) {
-            errors.add("UpdatedBy is not empty");
+            errors.add("UpdatedBy is required");
         }
         if (model.getCategoryId() == null) {
-            errors.add("CategoryId is not empty or not exist");
+            errors.add("CategoryId is required");
         }
         if (errors.size() > 0) {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
@@ -149,7 +149,7 @@ public class FoodServiceImpl implements FoodService {
         Optional<UserRole> userRole = userRoleRepository.findById(userRoleKey);
         if (!userRole.isPresent()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(
-                    new ResponseData(HttpStatus.FORBIDDEN.value(), "access denied, you cannot active or delete", ""));
+                    new ResponseData(HttpStatus.FORBIDDEN.value(), "Access denied, you cannot active or delete.", ""));
         }
         Food foodUpdate = f.map(food -> {
             food.setName(model.getName());
@@ -180,7 +180,7 @@ public class FoodServiceImpl implements FoodService {
 
         FoodDTO foodDTO = FoodDTO.foodDTO(foodUpdate);
         return ResponseEntity.ok(
-                new ResponseData(HttpStatus.OK.value(), "Update successfully", foodDTO));
+                new ResponseData(HttpStatus.OK.value(), "Update successfully!", foodDTO));
     }
 
     @Override
@@ -190,13 +190,13 @@ public class FoodServiceImpl implements FoodService {
         Optional<UserRole> userRole = userRoleRepository.findById(userRoleKey);
         if (!userRole.isPresent()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(
-                    new ResponseData(HttpStatus.FORBIDDEN.value(), "access denied, you cannot active or delete", ""));
+                    new ResponseData(HttpStatus.FORBIDDEN.value(), "Access denied, you cannot active or delete.", ""));
         }
         if (food.isPresent()) {
             food.get().setStatus(status);
             food.get().setUpdatedBy(updateBy);
             return ResponseEntity.ok(
-                    new ResponseData(HttpStatus.OK.value(), "Update successfully", FoodDTO.foodDTO(foodRepository.save(food.get()))));
+                    new ResponseData(HttpStatus.OK.value(), "Update successfully!", FoodDTO.foodDTO(foodRepository.save(food.get()))));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 new ResponseData(HttpStatus.NOT_FOUND.value(), "Cannot find food with id " + id, ""));
@@ -209,22 +209,22 @@ public class FoodServiceImpl implements FoodService {
         Optional<UserRole> userRole = userRoleRepository.findById(userRoleKey);
         if (!userRole.isPresent()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(
-                    new ResponseData(HttpStatus.FORBIDDEN.value(), "access denied, you cannot active or delete", ""));
+                    new ResponseData(HttpStatus.FORBIDDEN.value(), "Access denied, you cannot active or delete", ""));
         }
-        for (Food f: foods) {
+        for (Food f : foods) {
             f.setStatus(status);
             f.setUpdatedBy(updateBy);
         }
         List<FoodDTO> foodDTOS = new ArrayList<>();
         List<Food> foodsUpdate = foodRepository.saveAll(foods);
-        for (Food f: foodsUpdate) {
+        for (Food f : foodsUpdate) {
             foodDTOS.add(FoodDTO.foodDTO(f));
         }
         ClientSdi clientSdi = new ClientSdi();
         clientSdi.setUserId(updateBy);
         List<DataMailModel> dataMailModels = new ArrayList<>();
         for (FoodDTO item : foodDTOS) {
-            dataMailModels.add(new DataMailModel(item.getName(), item.getDescription(), END_POINT_DETAIL_FOOD + item.getId(),END_POINT_CLOUDINARY +  item.getAvatar()));
+            dataMailModels.add(new DataMailModel(item.getName(), item.getDescription(), END_POINT_DETAIL_FOOD + item.getId(), END_POINT_CLOUDINARY + item.getAvatar()));
         }
         clientSdi.setUserId(updateBy);
         clientSdi.setDataMailModels(dataMailModels);
@@ -241,11 +241,11 @@ public class FoodServiceImpl implements FoodService {
             User user = userRepository.findById(food.get().getCreatedBy()).orElse(null);
             if (user == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                        new ResponseData(HttpStatus.NOT_FOUND.value(), "Cannot find createBy with id " + food.get().getCreatedBy(), ""));
+                        new ResponseData(HttpStatus.NOT_FOUND.value(), "Cannot find user with id " + food.get().getCreatedBy(), ""));
             }
             FoodDTO foodDTO = FoodDTO.foodDTO(food.get(), user.getName(), user.getEmail());
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseData(HttpStatus.OK.value(), "Successfully", foodDTO));
+                    new ResponseData(HttpStatus.OK.value(), "Successful", foodDTO));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     new ResponseData(HttpStatus.NOT_FOUND.value(), "Cannot find food with id " + id, ""));
@@ -267,28 +267,28 @@ public class FoodServiceImpl implements FoodService {
                                                 int limit,
                                                 String order) {
         Sort.Direction direction = Sort.Direction.DESC;
-        if (order.equals("asc")){
+        if (order.equals("asc")) {
             direction = Sort.Direction.ASC;
         }
-        Long endDate = -1L;
+        long endDate = -1L;
         if (!expirationDate.equals("")) {
-            endDate =  Utilities.convertStringToLong(expirationDate);
+            endDate = Utilities.convertStringToLong(expirationDate);
         }
-        Long startCreatedL = -1L;
+        long startCreatedL = -1L;
         if (!startCreated.equals("")) {
-            startCreatedL =  Utilities.convertStringToLong(startCreated);
+            startCreatedL = Utilities.convertStringToLong(startCreated);
         }
-        Long endCreatedL = -1L;
+        long endCreatedL = -1L;
         if (!endCreated.equals("")) {
-            endCreatedL =  Utilities.convertStringToLong(endCreated);
+            endCreatedL = Utilities.convertStringToLong(endCreated);
         }
-        Long startUpdatedL = -1L;
+        long startUpdatedL = -1L;
         if (!startUpdated.equals("")) {
-            startUpdatedL =  Utilities.convertStringToLong(startUpdated);
+            startUpdatedL = Utilities.convertStringToLong(startUpdated);
         }
-        Long endUpdatedL = -1L;
+        long endUpdatedL = -1L;
         if (!endUpdated.equals("")) {
-            endUpdatedL =  Utilities.convertStringToLong(endUpdated);
+            endUpdatedL = Utilities.convertStringToLong(endUpdated);
         }
         Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE, Sort.by(direction, sortBy));
         if (limit > 0) {
@@ -306,13 +306,61 @@ public class FoodServiceImpl implements FoodService {
         Page<FoodDTO> dtoPage = foods.map(new Function<Food, FoodDTO>() {
             @Override
             public FoodDTO apply(Food food) {
-                FoodDTO dto = FoodDTO.foodDTO(food);
-                return dto;
+                return FoodDTO.foodDTO(food);
             }
         });
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseData(HttpStatus.OK.value(), "Successfully", dtoPage));
+                new ResponseData(HttpStatus.OK.value(), "Successful", dtoPage));
     }
 
+    @Override
+    public ResponseEntity<ResponseData> getNearestLocation(double positionLongitude,
+                                                           double positionLatitude,
+                                                           double distance,
+                                                           int page,
+                                                           String sortBy,
+                                                           int limit,
+                                                           String order) {
+        Sort.Direction direction = Sort.Direction.DESC;
+        if (order.equals("asc")) {
+            direction = Sort.Direction.ASC;
+        }
 
+        Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE, Sort.by(direction, sortBy));
+        if (limit > 0) {
+            pageable = PageRequest.of(page, limit, Sort.by(direction, sortBy));
+        }
+
+        List<FoodPro> data = foodRepository.getNearestLocation(
+                positionLongitude,
+                positionLatitude,
+                distance,
+                pageable);
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseData(HttpStatus.OK.value(), "Successful", data));
+    }
+
+    @Override
+    public ResponseEntity<ResponseData> getRequestedFood(int userID,
+                                                         int page,
+                                                         String sortBy,
+                                                         int limit,
+                                                         String order) {
+        Sort.Direction direction = Sort.Direction.DESC;
+        if (order.equals("asc")) {
+            direction = Sort.Direction.ASC;
+        }
+
+        Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE, Sort.by(direction, sortBy));
+        if (limit > 0) {
+            pageable = PageRequest.of(page, limit, Sort.by(direction, sortBy));
+        }
+
+        List<FoodPro> requestedFood = foodRepository.getRequestedFood(userID, pageable);
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseData(HttpStatus.OK.value(), "Successful", requestedFood)
+        );
+    }
 }
