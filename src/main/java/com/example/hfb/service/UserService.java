@@ -25,4 +25,5 @@ public interface UserService {
     List<RoleDTO> getRoles(String username);
     ResponseEntity<ResponseData> getUserRole(String username, String roleName);
     Iterable<UserDTO> search(@Param(value="keyword") String keyword, @Param(value="status") int status, Pageable pageable);
+    ResponseEntity<ResponseData> updateAccountStatus(Integer status, Integer id);
 }
