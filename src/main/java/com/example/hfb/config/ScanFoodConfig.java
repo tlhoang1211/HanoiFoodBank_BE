@@ -20,23 +20,23 @@ public class ScanFoodConfig {
     @Autowired
     private RequestRepository requestRepository;
 
-//    @Scheduled(fixedDelay = 1000*60*60)
-//    public void scheduleFixedDelayTask() throws InterruptedException {
-//        List<Food> foods = foodRepository.findAll();
-//        for (Food item : foods) {
-//            Long currentTime = Calendar.getInstance().getTimeInMillis();
-//            if (currentTime > item.getExpirationDate()) {
-//                item.setStatus(0);
-//                foodRepository.save(item);
-//                List<Request> requests = requestRepository.findByFood(item);
-//                for (Request r : requests) {
-//                    if (r.getStatus() != 3) {
-//                        r.setStatus(4);
-//                        requestRepository.save(r);
-//                    }
-//
-//                }
-//            }
-//        }
-//    }
+    @Scheduled(fixedDelay = 1000*60*60)
+    public void scheduleFixedDelayTask() throws InterruptedException {
+        List<Food> foods = foodRepository.findAll();
+        for (Food item : foods) {
+            Long currentTime = Calendar.getInstance().getTimeInMillis();
+            if (currentTime > item.getExpirationDate()) {
+                item.setStatus(3);
+                foodRepository.save(item);
+                List<Request> requests = requestRepository.findByFood(item);
+                for (Request r : requests) {
+                    if (r.getStatus() != 3) {
+                        r.setStatus(4);
+                        requestRepository.save(r);
+                    }
+
+                }
+            }
+        }
+    }
 }
