@@ -97,6 +97,11 @@ public class UserController {
         return userService.updateUser(model, id);
     }
 
+    @PostMapping("/users/update-status/{id}/{status}")
+    public ResponseEntity<ResponseData> updateAccountStatus(@PathVariable Integer status, @PathVariable Integer id){
+        return userService.updateAccountStatus(status, id);
+    }
+
     @PostMapping("/users/point/{id}")
     public ResponseEntity<ResponseData> updatePoint(@RequestBody UserModel model, @PathVariable Integer id){
         return userService.updatePoint(model, id);

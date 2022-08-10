@@ -71,11 +71,23 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public ResponseEntity<ResponseData> updateAccountStatus(Integer status, Integer id) {
+        User u = userRepository.findById(id).orElse(null);
+        if (u == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Cannot find user in database", null));
+        }
+        u.setStatus(status);
+        return ResponseEntity.status(HttpStatus.OK.value()).body(
+                new ResponseData(HttpStatus.OK.value(), "Update success", UserDTO.userDTO(userRepository.save(u))));
+    }
+
+    @Override
     public ResponseEntity<ResponseData> updateUser(UserModel model, Integer id) {
         User userUpdate = userRepository.findById(id).orElse(null);
         if (userUpdate == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot user in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Cannot find user in database", null));
         }
         User u =  userRepository.findByUsername(model.getUsername());
         if (u != null && (userUpdate.getUsername() != u.getUsername())){
@@ -101,7 +113,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User userUpdate = userRepository.findById(id).orElse(null);
         if (userUpdate == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot user in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Cannot find user in database", ""));
         }
         userUpdate.setPointEvaluation(model.getPointEvaluation());
         return ResponseEntity.status(HttpStatus.OK.value()).body(
@@ -129,7 +141,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User userUpdate = userRepository.findById(id).orElse(null);
         if (userUpdate == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot user in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Cannot find user in database", ""));
         }
         userUpdate.setPassword(bCryptPasswordEncoder.encode(password));
         return ResponseEntity.status(HttpStatus.OK.value()).body(
@@ -150,7 +162,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Role role = roleRepository.findByName(roleName);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
-                    new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot user in database", ""));
+                    new ResponseData(HttpStatus.NOT_FOUND.value(), "Cannot find user in database", ""));
         } else if (role == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(
                     new ResponseData(HttpStatus.NOT_FOUND.value(), "cannot role in database", ""));
