@@ -32,6 +32,9 @@ public class User {
     private Integer updatedBy;
     private int status;
 
+    @Column(name = "enabled")
+    private boolean enabled;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL , fetch = FetchType.EAGER)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     Set<UserRole> userRoles = new HashSet<>();
@@ -75,6 +78,7 @@ public class User {
         this.status = 1;
         this.createdAt = Calendar.getInstance().getTimeInMillis();
         this.updatedAt = Calendar.getInstance().getTimeInMillis();
+        this.enabled = false;
     }
 
     public User(Integer id, String name, String username, String password, String email, String phone, String address, String avatar, int pointEvaluation, long createdAt, long updatedAt, Integer createdBy, Integer updatedBy, int status, double positionLongitude, double positionLatitude) {
@@ -94,6 +98,7 @@ public class User {
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.status = status;
+        this.enabled = false;
     }
 
 

@@ -41,36 +41,36 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/users/find/{id}")
-    public ResponseEntity<ResponseData> getUserById(@PathVariable Integer id){
+    public ResponseEntity<ResponseData> getUserById(@PathVariable Integer id) {
         ResponseEntity<ResponseData> userDTO = userService.getUserById(id);
         if (userDTO == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value())
-                    .body(new ResponseData(HttpStatus.NOT_FOUND.value(), "User is not exist",""));
+                    .body(new ResponseData(HttpStatus.NOT_FOUND.value(), "User is not exist", ""));
         }
-        return ResponseEntity.ok(new ResponseData(HttpStatus.OK.value(), "success",userDTO));
+        return ResponseEntity.ok(new ResponseData(HttpStatus.OK.value(), "success", userDTO));
     }
 
     @GetMapping("/users/{username}")
-    public ResponseEntity<ResponseData> getUser(@PathVariable String username){
+    public ResponseEntity<ResponseData> getUser(@PathVariable String username) {
         UserDTO userDTO = userService.getUser(username);
         if (userDTO == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value())
-                    .body(new ResponseData(HttpStatus.NOT_FOUND.value(), "User is not exist",""));
+                    .body(new ResponseData(HttpStatus.NOT_FOUND.value(), "User is not exist", ""));
         }
-        return ResponseEntity.ok(new ResponseData(HttpStatus.OK.value(), "success",userDTO));
+        return ResponseEntity.ok(new ResponseData(HttpStatus.OK.value(), "success", userDTO));
     }
 
     @GetMapping("/users")
-    public ResponseEntity<ResponseData> getUserByRole(@RequestParam String role){
+    public ResponseEntity<ResponseData> getUserByRole(@RequestParam String role) {
         if (userService.getUsersByRole(role) == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value())
-                    .body(new ResponseData(HttpStatus.NOT_FOUND.value(), "Role is not exist",""));
+                    .body(new ResponseData(HttpStatus.NOT_FOUND.value(), "Role is not exist", ""));
         }
-        return ResponseEntity.ok(new ResponseData(HttpStatus.OK.value(), "success",userService.getUsersByRole(role)));
+        return ResponseEntity.ok(new ResponseData(HttpStatus.OK.value(), "success", userService.getUsersByRole(role)));
     }
 
     @GetMapping("/users/search")
-    public ResponseEntity<ResponseData> search (
+    public ResponseEntity<ResponseData> search(
             @RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
             @RequestParam(name = "status", required = false, defaultValue = "-1") int status,
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
@@ -79,59 +79,60 @@ public class UserController {
             @RequestParam(name = "order", required = false, defaultValue = "desc") String order) {
 
         Sort.Direction direction = Sort.Direction.DESC;
-        if (order.equals("asc")){
+        if (order.equals("asc")) {
             direction = Sort.Direction.ASC;
         }
         Pageable pageable = PageRequest.of(page, limit, Sort.by(direction, sortBy));
         return ResponseEntity.ok(new ResponseData(HttpStatus.OK.value(),
-        "success", userService.search(keyword, status, pageable)));
+                "success", userService.search(keyword, status, pageable)));
     }
 
     @GetMapping("/users/roles")
-    public ResponseEntity<ResponseData> getRoles(@RequestParam String username){
+    public ResponseEntity<ResponseData> getRoles(@RequestParam String username) {
         return ResponseEntity.ok(new ResponseData(HttpStatus.OK.value(), "success", userService.getRoles(username)));
     }
 
     @PostMapping("/users/{id}")
-    public ResponseEntity<ResponseData> updateUser(@RequestBody UserModel model, @PathVariable Integer id){
+    public ResponseEntity<ResponseData> updateUser(@RequestBody UserModel model, @PathVariable Integer id) {
         return userService.updateUser(model, id);
     }
 
     @PostMapping("/users/update-status/{id}/{status}")
-    public ResponseEntity<ResponseData> updateAccountStatus(@PathVariable Integer status, @PathVariable Integer id){
+    public ResponseEntity<ResponseData> updateAccountStatus(@PathVariable Integer status, @PathVariable Integer id) {
         return userService.updateAccountStatus(status, id);
     }
 
     @PostMapping("/users/point/{id}")
-    public ResponseEntity<ResponseData> updatePoint(@RequestBody UserModel model, @PathVariable Integer id){
+    public ResponseEntity<ResponseData> updatePoint(@RequestBody UserModel model, @PathVariable Integer id) {
         return userService.updatePoint(model, id);
     }
 
     @PostMapping("/users/update-list-status")
-    public ResponseEntity<ResponseData> updateListStatus (@RequestBody FoodModel model){
+    public ResponseEntity<ResponseData> updateListStatus(@RequestBody FoodModel model) {
         String arr = model.getArrId();
-        Type IdListType = new TypeToken<List<Integer>>(){}.getType();
+        Type IdListType = new TypeToken<List<Integer>>() {
+        }.getType();
         List<Integer> Ids = new Gson().fromJson(arr, IdListType);
         return userService.updateListStatus(model.getStatus(), Ids, model.getUpdatedBy());
     }
 
     @PostMapping("/users/change-password/{id}")
-    public ResponseEntity<ResponseData> changePassword(@RequestBody UserModel model, @PathVariable Integer id){
+    public ResponseEntity<ResponseData> changePassword(@RequestBody UserModel model, @PathVariable Integer id) {
         return userService.changePassword(model.getPassword(), id);
     }
 
     @PostMapping("/users")
-    public ResponseEntity<ResponseData> saveUser(@RequestBody UserModel user){
+    public ResponseEntity<ResponseData> saveUser(@RequestBody UserModel user) {
         return userService.saveUser(user);
     }
 
     @PostMapping("/roles/add-to-user")
-    public ResponseEntity<ResponseData> addRoleToUser(@RequestBody RoleToUserForm form){
-       return userService.addRoleToUser(form.getUsername(), form.getRoleName());
+    public ResponseEntity<ResponseData> addRoleToUser(@RequestBody RoleToUserForm form) {
+        return userService.addRoleToUser(form.getUsername(), form.getRoleName());
     }
 
     @PostMapping("/get-user-role")
-    public ResponseEntity<ResponseData> getUserRole(@RequestBody RoleToUserForm form){
+    public ResponseEntity<ResponseData> getUserRole(@RequestBody RoleToUserForm form) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/api/v1/hfb/get-user-role").toUriString());
         return userService.getUserRole(form.getUsername(), form.getRoleName());
@@ -140,7 +141,7 @@ public class UserController {
     @GetMapping("/token/refresh")
     public ResponseEntity<ResponseData> refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             try {
                 String refresh_token = authorizationHeader.substring("Bearer ".length());
                 Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
@@ -150,13 +151,13 @@ public class UserController {
                 UserDTO user = userService.getUser(username);
 
                 String access_token = JWT.create().withSubject(user.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 10*60*1000))
+                        .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
                         .withIssuer(request.getRequestURL().toString())
                         .withClaim("roles", userService.getRoles(username).stream().map(RoleDTO::getName).collect(Collectors.toList()))
                         .sign(algorithm);
 
                 refresh_token = JWT.create().withSubject(user.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 10*60*10000))
+                        .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 10000))
                         .withIssuer(request.getRequestURL().toString())
                         .sign(algorithm);
 
@@ -176,6 +177,7 @@ public class UserController {
     }
 
 }
+
 @Data
 class RoleToUserForm {
     private String username;
