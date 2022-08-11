@@ -10,16 +10,16 @@ import java.util.Properties;
 
 @Configuration
 public class MailConfig {
-    @Value("${mailServer.host}")
+    @Value("${spring.mail.host}")
     private String host;
 
-    @Value("${mailServer.port}")
+    @Value("${spring.mail.port}")
     private Integer port;
 
-    @Value("${mailServer.email}")
+    @Value("${spring.mail.username}")
     private String email;
 
-    @Value("${mailServer.password}")
+    @Value("${spring.mail.password}")
     private String password;
 
     @Value("${mailServer.isSSL}")
