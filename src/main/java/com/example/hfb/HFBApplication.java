@@ -72,17 +72,17 @@ public class HFBApplication {
             service.addRoleToUser("test3@gmail.com", "ROLE_USER");
 
             // add category
-            service.saveCategory(1, 2, "Drinks");
+            service.saveCategory(1, 2, "Drink");
             service.saveCategory(2, 2, "Noodle");
             service.saveCategory(3, 2, "Bread");
             service.saveCategory(4, 2, "Rice");
             service.saveCategory(5, 2, "Meat");
             service.saveCategory(6, 2, "Seafood");
-            service.saveCategory(7, 2, "Vegetables");
+            service.saveCategory(7, 2, "Vegetable");
             service.saveCategory(8, 2, "Vegetarian Food");
             service.saveCategory(9, 2, "Fruit");
             service.saveCategory(10, 2, "Fast Food");
-            service.saveCategory(11, 2, "Snacks");
+            service.saveCategory(11, 2, "Snack");
             service.saveCategory(12, 2, "Other");
 
             // drink
