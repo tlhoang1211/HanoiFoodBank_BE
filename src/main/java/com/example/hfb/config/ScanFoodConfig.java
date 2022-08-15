@@ -15,7 +15,6 @@ import java.util.List;
 
 @Configuration
 @EnableScheduling
-@ConditionalOnProperty(name = "scheduler.enabled", matchIfMissing = true)
 public class ScanFoodConfig {
     @Autowired
     private FoodRepository foodRepository;
